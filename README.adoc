@@ -1,4 +1,4 @@
-= Format Anki Notes
+= French Typo
 Dhrions
 0.1.0, 26/08/2025
 :sectnums:
@@ -28,24 +28,19 @@ endif::[]
 
 Format Anki Notes est un greffon pour {url-anki}[Anki] qui permet de formater automatiquement vos notes selon les règles typographiques françaises (conformément au link:https://les-unpertinents.fr/Manuscrits/Lexique%20des%20r%C3%A8gles%20typographiques%20en%20usage%20%C3%A0%20l%27Imprimerie%20nationale2.pdf[lexique des règles typographiques en usage à l'Imprimerie nationale]) :
 
-- ajout d'_espaces insécables_ avant/after les signes de ponctuation (`:`, `;`, `?`, `!`, `»`, etc.) ;
-- normalisation des _unités_ (km, kg, °C, etc.) ;
-- formatage des _numéros_ (1<sup>er</sup>, n<sup>o</sup>4, etc.) ;
-- suppression des _espaces multiples_ ;
-- gestion des _guillemets français_ (« »).
+* ajout d'_espaces insécables_ avant/after les signes de ponctuation (`:`, `;`, `?`, `!`, `»`, etc.) ;
+* normalisation des _unités_ (km, kg, °C, etc.) ;
+* formatage des _numéros_ (1<sup>er</sup>, n<sup>o</sup>4, etc.) ;
+* suppression des _espaces multiples_ ;
+* gestion des _guillemets français_ (« »).
 
 Ce projet est _open source_ et conçu pour les utilisateurs francophones d'Anki.
 
 == Fonctionnalités
 
-* **Formatage en un clic** : Bouton intégré dans l'éditeur de notes.
-* **Formatage par lot** : Menu dédié dans le navigateur de notes pour formater plusieurs notes à la fois.
-* **Règles typographiques** :
-  ** Espaces insécables avant et après `:`, `;`, `?`, `!`, `%` et autour des unités.
-  ** Normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.).
-  ** Transformation des suffixes ordinaux (`1er` → `1<sup>er</sup>`, `n°4` → `n<sup>o</sup>4`).
-  ** Suppression des espaces multiples et des `&nbsp;` redondants.
-* **Journalisation** : Logs détaillés pour le débogage.
+// * **Formatage en un clic** : Bouton intégré dans l'éditeur de notes.
+* **Formatage par lot** : entrée dédiée dans le navigateur de notes pour formater plusieurs notes à la fois.
+* **Journalisation** : logs détaillés pour le débogage.
 
 == Prérequis
 
@@ -55,38 +50,48 @@ Ce projet est _open source_ et conçu pour les utilisateurs francophones d'Anki.
 
 == Installation
 
-=== Méthode 1 : Installation via Anki (recommandée)
+// === Méthode 1 : Installation via Anki (recommandée)
 
-. Téléchargez le fichier `.ankiaddon` depuis les {url-repo}/releases[releases GitHub].
-. Dans Anki, allez dans `Outils` > `Add-ons` > `Installer depuis un fichier`.
-. Sélectionnez le fichier `.ankiaddon` téléchargé et redémarrez Anki.
+// * Téléchargez le fichier `.ankiaddon` depuis les {url-repo}/releases[releases GitHub].
+// * Dans Anki, allez dans `Outils` > `Add-ons` > `Installer depuis un fichier`.
+// * Sélectionnez le fichier `.ankiaddon` téléchargé et redémarrez Anki.
 
-=== Méthode 2 : Installation manuelle (pour les développeurs)
+// === Méthode 2 : Installation manuelle (pour les développeurs)
 
 . Clonez ce dépôt :
 +
 [source,bash]
 git clone https://github.com/dhrions/format_anki_notes.git
-. Copiez le dossier `format_anki_notes` dans le répertoire `addons` de votre profil Anki.
-. Redémarrez Anki.
++
+* Copiez le dossier `format_anki_notes` dans le répertoire `addons` de votre profil Anki.
+* Redémarrez Anki.
 
 == Utilisation
 
 === Formater une note individuelle
 
-. Ouvrez une note dans l'éditeur Anki.
-. Cliquez sur le bouton *Formater* (ou utilisez le raccourci `Ctrl+Shift+F`).
-. La note est formatée selon les règles typographiques françaises.
+* Ouvrez une note dans l'éditeur Anki.
+* Cliquez sur le bouton *Formater* (ou utilisez le raccourci `Ctrl+Shift+F`).
+* La note est formatée selon les règles typographiques françaises.
 
 === Formater plusieurs notes
 
-. Dans le navigateur de notes, sélectionnez les notes à formater.
-. Allez dans le menu `Notes` > `Formater les notes sélectionnées`.
-. Confirmez l'opération.
+* Dans le navigateur de notes, sélectionnez les notes à formater.
+* Allez dans le menu `Notes` > `Formater les notes sélectionnées`.
+* Confirmez l'opération.
 
 == Configuration
 
 Aucune configuration supplémentaire n'est requise. L'add-on fonctionne "out of the box".
+
+== Règles
+
+* **Règles typographiques** :
+
+** Espaces insécables avant et après `:`, `;`, `?`, `!`, `%` et autour des unités.
+** Normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.).
+** Transformation des suffixes ordinaux (`1er` → `1<sup>er</sup>`, `n°4` → `n<sup>o</sup>4`).
+** Suppression des espaces multiples et des `&nbsp;` redondants.
 
 == Développement
 
@@ -120,5 +125,7 @@ pip install -r requirements.txt
 
 === Exécuter les tests
 
+Depuis la racine du dépôt, il suffit d'exécuter :
+
 [source,bash]
-pytest tests/
+pytest
