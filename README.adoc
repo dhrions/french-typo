@@ -1,0 +1,124 @@
+= Format Anki Notes
+Dhrions
+0.1.0, 26/08/2025
+:sectnums:
+:toc:
+:toclevels: 4
+:toc-title: Sommaire
+:description: Add-on Anki pour le formatage typographique français
+:keywords: Anki, typographie, espaces insécables, formatage, add-on
+:imagesdir: ./images
+:icons: font
+// Variables utiles
+:url-repo: https://github.com/dhrions/format_anki_notes
+:url-anki: https://apps.ankiweb.net/
+:url-python: https://www.python.org/
+:url-pip: https://pypi.org/project/pip/
+:url-pytest: https://docs.pytest.org/
+:url-license: LICENSE
+
+// Badges (optionnel, à adapter selon votre hébergement)
+ifdef::env-github[]
+image:https://img.shields.io/badge/version-0.1.0-blue[link={url-repo}]
+image:https://img.shields.io/badge/license-MIT-green[link={url-license}]
+image:https://img.shields.io/badge/Anki-25.07.5+-orange[link={url-anki}]
+endif::[]
+
+== Introduction
+
+Format Anki Notes est un add-on pour {url-anki}[Anki] qui permet de formater automatiquement vos notes selon les règles typographiques françaises :
+
+- Ajout d'_espaces insécables_ avant/after les signes de ponctuation (`:`, `;`, `?`, `!`, `»`, etc.)
+- Normalisation des _unités_ (km, kg, °C, etc.)
+- Formatage des _numéros_ (1<sup>er</sup>, n<sup>o</sup>4, etc.)
+- Suppression des _espaces multiples_
+- Gestion des _guillemets français_ (« »)
+
+Ce projet est _open source_ et conçu pour les utilisateurs francophones d'Anki.
+
+== Fonctionnalités
+
+- **Formatage en un clic** : Bouton intégré dans l'éditeur de notes.
+- **Formatage par lot** : Menu dédié dans le navigateur de notes pour formater plusieurs notes à la fois.
+- **Règles typographiques** :
+  - Espaces insécables avant et après `:`, `;`, `?`, `!`, `%` et autour des unités.
+  - Normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.).
+  - Transformation des suffixes ordinaux (`1er` → `1<sup>er</sup>`, `n°4` → `n<sup>o</sup>4`).
+  - Suppression des espaces multiples et des `&nbsp;` redondants.
+- **Journalisation** : Logs détaillés pour le débogage.
+
+== Prérequis
+
+- {url-anki}[Anki] version 2.1.50 ou supérieure.
+- Python {url-python}[3.8+] (inclus avec Anki).
+- Accès à l'installation d'add-ons dans Anki.
+
+== Installation
+
+=== Méthode 1 : Installation via Anki (recommandée)
+
+. Téléchargez le fichier `.ankiaddon` depuis les {url-repo}/releases[releases GitHub].
+. Dans Anki, allez dans `Outils` > `Add-ons` > `Installer depuis un fichier`.
+. Sélectionnez le fichier `.ankiaddon` téléchargé et redémarrez Anki.
+
+=== Méthode 2 : Installation manuelle (pour les développeurs)
+
+. Clonez ce dépôt :
++
+[source,bash]
+git clone https://github.com/dhrions/format_anki_notes.git
+. Copiez le dossier `format_anki_notes` dans le répertoire `addons` de votre profil Anki.
+. Redémarrez Anki.
+
+== Utilisation
+
+=== Formater une note individuelle
+
+. Ouvrez une note dans l'éditeur Anki.
+. Cliquez sur le bouton *Formater* (ou utilisez le raccourci `Ctrl+Shift+F`).
+. La note est formatée selon les règles typographiques françaises.
+
+=== Formater plusieurs notes
+
+. Dans le navigateur de notes, sélectionnez les notes à formater.
+. Allez dans le menu `Notes` > `Formater les notes sélectionnées`.
+. Confirmez l'opération.
+
+== Configuration
+
+Aucune configuration supplémentaire n'est requise. L'add-on fonctionne "out of the box".
+
+== Développement
+
+=== Structure du projet
+
+[source]
+----
+format_anki_notes/
+├── format_anki_notes/          # Code source
+│   ├── browser/                # Logique pour le navigateur
+│   ├── editor/                 # Logique pour l'éditeur
+│   ├── rules/                  # Règles de formatage
+│   ├── __init__.py             # Point d'entrée
+│   ├── logger.py               # Gestion des logs
+│   └── main.py                 # Fonction principale
+├── tests/                      # Tests unitaires
+└── README.adoc                 # Documentation
+----
+
+=== Dépendances
+
+Les dépendances sont listées dans `requirements.txt` :
+
+- `pytest` (pour les tests)
+- `beautifulsoup4` (pour le traitement HTML)
+
+Installez-les avec :
+
+[source,bash]
+pip install -r requirements.txt
+
+=== Exécuter les tests
+
+[source,bash]
+pytest tests/
