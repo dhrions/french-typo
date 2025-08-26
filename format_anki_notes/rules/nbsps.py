@@ -53,6 +53,10 @@ def add_nbsp(text):
     text = re.sub(r'(n<sup>o)&nbsp;<\/sup>(\{\{.*?\}\})', r'\1</sup>&nbsp;\2', text)
     text = re.sub(r'(n<sup>o<\/sup>)(\{\{.*?\}\})', r'\1&nbsp;\2', text)
     text = re.sub(r'(n<sup>o<\/sup>)(\s*)(\d+)', r'\1&nbsp;\3', text)
+    
+    # Espace insécable après les suffixes ordinaux au format HTML
+    text = re.sub(r'(<sup>er<\/sup>|<sup>o<\/sup>|<sup>e<\/sup>|<sup>d<\/sup>)\s+', r'\1&nbsp;', text)
+
 
     return text
 

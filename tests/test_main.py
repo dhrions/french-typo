@@ -30,6 +30,12 @@ def test_add_nbsp():
     assert add_nbsp('10 cm et 20 KM.') == '10&nbsp;cm et 20&nbsp;KM.'
     assert add_nbsp('Voir n<sup>o</sup>5 et n<sup>o</sup>10.') == 'Voir n<sup>o</sup>&nbsp;5 et n<sup>o</sup>&nbsp;10.'
 
+def test_add_nbsp_dates():
+    assert format_text('24 mai') == '24 mai'
+    assert format_text('1er janvier') == '1<sup>er</sup>&nbsp;janvier'
+    assert format_text('10 %') == '10&nbsp;%'
+
+
 def test_format_text():
     # Cas avec unité en majuscule et numéro à formater
     text = 'Voir n°4 : 10 KM et article 5.'
