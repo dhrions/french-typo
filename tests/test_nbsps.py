@@ -66,6 +66,8 @@ def test_add_nbsp():
     assert add_nbsp('Voir <b>article 4</b>') == 'Voir <b>article&nbsp;4</b>'
     # Cas avec guillemets et ponctuation
     assert add_nbsp('« Test » : 2h30 et 10% ?') == '«&nbsp;Test&nbsp;»&nbsp;: 2&nbsp;h30 et 10&nbsp;%&nbsp;?'
+    # Date
+    assert add_nbsp('24 mai') == '24 mai'
 
 def test_add_nbsp_with_anki_cloze():
     assert add_nbsp('n<sup>o&nbsp;</sup>{{c1::52}}') == 'n<sup>o</sup>&nbsp;{{c1::52}}'
