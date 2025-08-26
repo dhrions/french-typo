@@ -1,0 +1,11 @@
+{
+  "name": "Format Anki Notes",
+  "author": "Dhrions",
+  "description": "Formate automatiquement les notes Anki selon les règles typographiques françaises (espaces insécables, unités, etc.).",
+  "version": "0.1.0",
+  "min_point_version": 0,
+  "max_point_version": null,
+  "homepage": "https://github.com/dhrions/format_anki_notes",
+  "conflicts": [],
+  "license": "MIT"
+}
