@@ -113,10 +113,7 @@ format_anki_notes/
 
 === Dépendances
 
-Les dépendances sont listées dans `requirements.txt` :
-
-- `pytest` (pour les tests)
-- `beautifulsoup4` (pour le traitement HTML)
+Les dépendances sont listées dans `requirements.txt`.
 
 Installez-les avec :
 
