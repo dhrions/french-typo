@@ -7,52 +7,45 @@ def remove_all_nbsp(text):
 def add_nbsp(text):
     """
     Ajoute des espaces insécables selon les règles typographiques françaises.
-    - Après les guillemets ouvrants («)
-    - Avant les guillemets fermants »)
-    - Avant les signes de ponctuation doubles (: ; ? !)
-    - Autour des unités et symboles
+    Gère spécifiquement le cas où &nbsp; est déjà dans la balise <sup>.
     """
     # Espace insécable après les guillemets ouvrants
     text = re.sub(r'«\s+', '«&nbsp;', text)
     # Espace insécable avant les guillemets fermants
     text = re.sub(r'\s+»', '&nbsp;»', text)
-
     # On traite d'abord les cas spéciaux "?!" et "? !" en les marquant temporairement
     text = text.replace('?!', '___QUESTION_EXCLAMATION___')
     text = text.replace('? !', '___QUESTION_ESPACE_EXCLAMATION___')
-
     # Espace insécable avant les signes de ponctuation doubles
     text = re.sub(r'\s+\?', '&nbsp;?', text)
     text = re.sub(r'\s+!', '&nbsp;!', text)
     text = re.sub(r'\s+:', '&nbsp;:', text)
     text = re.sub(r'\s+;', '&nbsp;;', text)
-
     # On rétablit les cas spéciaux
     text = text.replace('___QUESTION_EXCLAMATION___', '?!')
     text = text.replace('___QUESTION_ESPACE_EXCLAMATION___', '? !')
-
     # Espace insécable après ± et =
     for sign in ['±', '=']:
         text = re.sub(rf'{re.escape(sign)}\s+', f'{sign}&nbsp;', text)
-
     # Espace insécable pour les mots clés suivis d'un chiffre
     keywords = r'article|coef\.|partie'
     text = re.sub(rf'\b({keywords})\s+(\d+)', r'\1&nbsp;\2', text, flags=re.IGNORECASE)
-
     # Espace insécable pour § suivi d'un chiffre
     text = re.sub(r'§\s*(\d+)', r'§&nbsp;\1', text)
-
     # Espace insécable pour les heures (ex: 2h, 2h30, 2h45min)
     text = re.sub(r'(\d+)\s*(h)(\d*)', r'\1&nbsp;\2\3', text)
-
     # Espace insécable entre un chiffre et une unité ou un symbole
     units = r'cm|km|m|g|kg|L|h|min|s|°C|%|€|\$'
     text = re.sub(rf'(\d)\s*({units})', r'\1&nbsp;\2', text, flags=re.IGNORECASE)
 
-    # Espace insécable après n<sup>o</sup> suivi d'un chiffre
-    text = re.sub(r'(n<sup>o<\/sup>)(\d+)', r'\1&nbsp;\2', text)
+    # Gestion spécifique de n<sup>o</sup> suivi d'un chiffre ou d'une balise Anki
+    # Cas 1: n<sup>o&nbsp;</sup>{{c1::52}} → n<sup>o</sup>&nbsp;{{c1::52}}
+    text = re.sub(r'(n<sup>o)&nbsp;<\/sup>(\{\{.*?\}\})', r'\1</sup>&nbsp;\2', text)
+    # Cas 2: n<sup>o</sup>{{c1::52}} → n<sup>o</sup>&nbsp;{{c1::52}}
+    text = re.sub(r'(n<sup>o<\/sup>)(\{\{.*?\}\})', r'\1&nbsp;\2', text)
+    # Cas 3: n<sup>o</sup>52 → n<sup>o</sup>&nbsp;52
+    text = re.sub(r'(n<sup>o<\/sup>)(\s*)(\d+)', r'\1&nbsp;\3', text)
 
     # Espace insécable avant %
     text = re.sub(r'\s+%', '&nbsp;%', text)
-
     return text
