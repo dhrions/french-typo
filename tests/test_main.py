@@ -1,5 +1,3 @@
-# tests/test_main.py
-import pytest
 from format_anki_notes.main import remove_all_nbsp, add_nbsp, format_sup_numbers, normalize_units, format_text
 
 def test_remove_all_nbsp():
