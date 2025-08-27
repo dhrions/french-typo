@@ -51,3 +51,8 @@ def test_format_text_without_anki_rules():
     text = 'Voir n°4 : 10 KM et article 5.'
     expected = 'Voir n<sup>o</sup>&nbsp;4&nbsp;: 10&nbsp;km et article&nbsp;5.'
     assert format_text(text, is_anki=False) == expected
+
+def test_format_text_with_anki_rules(): 
+    text = '«&nbsp;{{c1::le dernier des gentils hommes et le premier des socialistes}}&nbsp;»'
+    expected = '«&nbsp;{{c1::le dernier des gentils hommes et le premier des socialistes}}&nbsp;»'
+    assert format_text(text, is_anki=True) == expected
