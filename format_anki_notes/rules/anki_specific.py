@@ -13,8 +13,8 @@ def add_nbsp_with_anki_tags(text):
     # Remplace }} suivi d'un symbole par }}&nbsp;symbole (même sans espace entre les deux)
     text = re.sub(r'(}})\s?([:;!?%€$])', r'\1&nbsp;\2', text)
     text = re.sub(r'(}})\s?([°CkmgLhmin])', r'\1&nbsp;\2', text)
-    # Remplace symbole ou chiffre suivi de {{ par symbole&nbsp;{{ (même sans espace)
-    text = re.sub(r'([:;!?%€$])\s?(\{\{)', r'\1&nbsp;\2', text)
+    # Remplace symbole suivi de {{ par symbole&nbsp;{{ (même sans espace)
+    text = re.sub(r'([:;!?%€$])\s?({{)', r'\1&nbsp;\2', text)
 
     # Gestion spécifique de n<sup>o</sup> suivi d'un chiffre ou d'une balise Anki
     text = re.sub(r'(n<sup>o)&nbsp;<\/sup>(\{\{.*?\}\})', r'\1</sup>&nbsp;\2', text)
@@ -27,7 +27,10 @@ def add_nbsp_with_anki_tags(text):
     return text
 
 
-
+def remove_multiple_nbsps(text):
+    # Nettoie les &nbsp; multiples (ex: «&nbsp;&nbsp; → «&nbsp;)
+    text = re.sub(r'(&nbsp;)+', '&nbsp;', text)
+    return text
 
 def format_anki_specific_rules(text):
     """
@@ -35,5 +38,6 @@ def format_anki_specific_rules(text):
     """
     logger.debug("Application des règles spécifiques à Anki...")
     # text = format_cloze(text)
-    text = add_nbsp_with_anki_tags(text)    
+    text = add_nbsp_with_anki_tags(text)
+    text = remove_multiple_nbsps(text)  
     return text
