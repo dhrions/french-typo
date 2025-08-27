@@ -6,7 +6,8 @@ logger = get_logger()
 
 def add_nbsp_with_anki_tags(text):
     """
-    Ajoute des espaces insécables selon les règles typographiques françaises.
+    Ajoute des espaces insécables selon les règles typographiques française
+    en prenant en compte les balises d'Anki (balises HTML, {{ et }}).
     """
 
     # Remplace }} suivi d'un symbole par }}&nbsp;symbole (même sans espace entre les deux)
