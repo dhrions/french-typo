@@ -15,8 +15,6 @@ def format_current_note(editor: Editor) -> None:
             if field_name in note:
                 original_text = note[field_name]
                 formatted_text = format_text(original_text, is_anki=True)
-                if not isinstance(formatted_text, str):
-                    formatted_text = original_text
                 if formatted_text != original_text:
                     note[field_name] = formatted_text
                     modified = True
