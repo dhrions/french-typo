@@ -1,6 +1,5 @@
 import re
 
-import re
 
 def format_sup_numbers(text):
     """
