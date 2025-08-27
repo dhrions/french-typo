@@ -37,8 +37,6 @@ def test_add_nbsp():
     # Espace insécable après ± et =
     assert add_nbsp('± 10') == '±&nbsp;10'
     assert add_nbsp('= 5') == '=&nbsp;5'
-    # assert add_nbsp('le signe = sert beaucoup') == 'le signe = sert beaucoup'
-    # assert add_nbsp('x = 5') == 'x&nbsp;=&nbsp;5'
     # Espace insécable pour mots-clés suivis d'un chiffre
     assert add_nbsp('article 4') == 'article&nbsp;4'
     assert add_nbsp('Article 58') == 'Article&nbsp;58'
