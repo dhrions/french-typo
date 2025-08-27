@@ -46,3 +46,8 @@ def test_format_text():
     text = '« Test » : 2h30 et 10% ?'
     expected = '«&nbsp;Test&nbsp;»&nbsp;: 2&nbsp;h30 et 10&nbsp;%&nbsp;?'
     assert format_text(text) == expected
+
+def test_format_text_without_anki_rules():
+    text = 'Voir n°4 : 10 KM et article 5.'
+    expected = 'Voir n<sup>o</sup>&nbsp;4&nbsp;: 10&nbsp;km et article&nbsp;5.'
+    assert format_text(text, is_anki=False) == expected
