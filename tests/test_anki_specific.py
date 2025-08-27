@@ -9,4 +9,3 @@ def test_add_nbsp_with_anki_tags():
     assert add_nbsp_with_anki_tags('5}} %') == '5}}&nbsp;%'
     assert add_nbsp_with_anki_tags('5}}%') == '5}}&nbsp;%'
     assert add_nbsp_with_anki_tags('environ {{c3::1}} %') == 'environ {{c3::1}}&nbsp;%'
-
