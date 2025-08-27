@@ -4,10 +4,11 @@ from .rules import (
     remove_multiple_spaces,
     normalize_units,
     format_sup_numbers,
-    add_nbsp
+    add_nbsp,
+    format_anki_specific_rules
 )
 
-def format_text(text):
+def format_text(text, is_anki=False):
     """
     Applique toutes les transformations typographiques dans l'ordre :
     1. Supprime les &nbsp; existants
@@ -21,4 +22,6 @@ def format_text(text):
     text = normalize_units(text)
     text = format_sup_numbers(text)
     text = add_nbsp(text)
+    if is_anki:
+        text = format_anki_specific_rules(text)
     return text

@@ -36,7 +36,7 @@ def format_selected_notes_in_browser(browser):
                 modified = False
                 for field_name in note.keys():
                     original_html = note[field_name]
-                    formatted_html = format_text(original_html)
+                    formatted_html = format_text(original_html, is_anki=True)
                     if formatted_html != original_html:
                         note[field_name] = formatted_html
                         modified = True
