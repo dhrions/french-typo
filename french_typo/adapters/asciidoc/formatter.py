@@ -1,11 +1,14 @@
 from pathlib import Path
 from french_typo.core.formatter import format_text
-from french_typo.core.profiles import TypoProfile
 
 IGNORED_PREFIXES = ("//",)
 
 
-def format_asciidoc_file(path: Path) -> None:
+def format_asciidoc_file(
+    path: Path,
+    *,
+    add_nbsp: bool = False,
+) -> None:
     lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
     result = []
 
@@ -21,6 +24,11 @@ def format_asciidoc_file(path: Path) -> None:
             result.append(line)
             continue
 
-        result.append(format_text(line, profile=TypoProfile.PLAIN))
+        result.append(
+            format_text(
+                line,
+                add_nbsp_enabled=add_nbsp,
+            )
+        )
 
     path.write_text("".join(result), encoding="utf-8")

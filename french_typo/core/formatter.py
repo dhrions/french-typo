@@ -1,26 +1,31 @@
 from .profiles import TypoProfile
 from .rules import (
     remove_all_nbsp,
-    remove_multiple_spaces,
+    remove_useless_spaces,
     normalize_units,
     format_sup_numbers,
     add_nbsp,
 )
 
-def format_text(text: str, profile: TypoProfile = TypoProfile.PLAIN) -> str:
+
+def format_text(
+    text: str,
+    *,
+    add_nbsp_enabled: bool = False,
+) -> str:
     """
     Applique les règles typographiques françaises.
 
-    Profils :
-    - PLAIN     : texte brut
-    - ANKI      : HTML + cloze (géré par l'adapter)
-    - ASCIIDOC  : texte AsciiDoc
+    Paramètres :
+    - add_nbsp_enabled : ajoute les espaces insécables (&nbsp;)
     """
 
     text = remove_all_nbsp(text)
-    text = remove_multiple_spaces(text)
+    text = remove_useless_spaces(text)
     text = normalize_units(text)
     text = format_sup_numbers(text)
-    text = add_nbsp(text)
+
+    if add_nbsp_enabled:
+        text = add_nbsp(text)
 
     return text
