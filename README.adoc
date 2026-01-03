@@ -125,4 +125,5 @@ pip install -r requirements.txt
 Depuis la racine du dépôt, il suffit d'exécuter :
 
 [source,bash]
+source env/bin/activate
 pytest
