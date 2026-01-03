@@ -1,4 +1,4 @@
-from format_anki_notes.rules.units import normalize_kg, normalize_km, normalize_composite_units
+from french_typo.core.rules.units import normalize_kg, normalize_km, normalize_composite_units
 
 # tests/test_units.py
 def test_normalize_km():

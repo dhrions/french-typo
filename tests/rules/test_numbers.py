@@ -1,4 +1,4 @@
-from format_anki_notes.rules.numbers import format_sup_numbers
+from french_typo.core.rules.numbers import format_sup_numbers
 
 def test_format_sup_numbers():
     assert format_sup_numbers('1er') == '1<sup>er</sup>'

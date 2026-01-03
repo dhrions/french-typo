@@ -1,4 +1,4 @@
-from format_anki_notes.rules.anki_specific import add_nbsp_with_anki_tags
+from french_typo.adapters.anki.rules import add_nbsp_with_anki_tags
 
 def test_add_nbsp_with_anki_tags():
     assert add_nbsp_with_anki_tags('n<sup>o&nbsp;</sup>{{c1::52}}') == 'n<sup>o</sup>&nbsp;{{c1::52}}'

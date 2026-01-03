@@ -1,6 +1,6 @@
 # tests/test_nbsps.py
 import pytest
-from format_anki_notes.rules.nbsps import remove_all_nbsp, add_nbsp
+from french_typo.core.rules.nbsps import remove_all_nbsp, add_nbsp
 
 
 def test_remove_all_nbsp():

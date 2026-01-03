@@ -1,6 +1,6 @@
 # tests/test_multiple_spaces.py
 import pytest
-from format_anki_notes.rules.multiple_spaces import remove_multiple_spaces
+from french_typo.core.rules.multiple_spaces import remove_multiple_spaces
 
 def test_remove_multiple_spaces():
     # Espaces normaux
