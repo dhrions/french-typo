@@ -6,6 +6,7 @@ from french_typo.adapters.asciidoc.rules import punctuate_bullet_line
 
 IGNORED_PREFIXES = ("//",)
 BULLET_START = re.compile(r'^\*\s+')
+INTRO_LINE = re.compile(r'.+:\s*$')
 
 
 def format_asciidoc_file(
@@ -22,6 +23,8 @@ def format_asciidoc_file(
       - ponctue correctement les listes :
         * ';' pour les items intermédiaires
         * '.' pour le dernier item
+      - insère une ligne vide après une phrase introductive
+        se terminant par ':' avant une liste
 
     Préserve STRICTEMENT :
     - les lignes vides
@@ -52,6 +55,19 @@ def format_asciidoc_file(
         # Ignorer blocs littéraux et commentaires
         if in_literal_block or line.lstrip().startswith(IGNORED_PREFIXES):
             result.append(line)
+            continue
+
+        next_line = lines[i + 1] if i + 1 < len(lines) else ""
+        prev_line = result[-1] if result else None
+
+        # 🔹 Règle : ligne introductive avant une liste
+        if (
+            INTRO_LINE.match(line)
+            and BULLET_START.match(next_line)
+            and prev_line != ""
+        ):
+            result.append(line)
+            result.append("")
             continue
 
         # 1. Typographie générale
