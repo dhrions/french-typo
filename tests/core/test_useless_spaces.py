@@ -14,3 +14,9 @@ def test_remove_useless_spaces():
     assert remove_useless_spaces("") == ""
     # Tabulations
     assert remove_useless_spaces("Hello\t\tworld") == "Hello world"
+
+def test_remove_space_before_dot():
+    assert remove_useless_spaces("Bonjour .") == "Bonjour."
+    assert remove_useless_spaces("Bonjour  .") == "Bonjour."
+    assert remove_useless_spaces("Fin de phrase .\n") == "Fin de phrase.\n"
+    assert remove_useless_spaces("A . B . C .") == "A. B. C."
