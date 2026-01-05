@@ -4,16 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "french-typo"
-version = "0.2.0"
-description = "Moteur de correction typographique française"
-readme = { file = "README.adoc", content-type = "text/plain" }
+version = "1.0.0"
+description = "Moteur agnostique de correction typographique française"
 requires-python = ">=3.8"
-dependencies = ["click>=8.0"]
-
-[project.scripts]
-french-typo = "french_typo.cli:fix"
+readme = "README.md"
+license = { text = "MIT" }
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["french_typo*"]
-exclude = ["format_anki_notes*", "tests*"]

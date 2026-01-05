@@ -1,13 +1,3 @@
-Metadata-Version: 2.4
-Name: french-typo
-Version: 1.0.0
-Summary: Moteur agnostique de correction typographique française
-License: MIT
-Requires-Python: >=3.8
-Description-Content-Type: text/markdown
-License-File: LICENSE
-Dynamic: license-file
-
 # French Typo
 
 **French Typo** est un moteur **agnostique** de correction typographique française.

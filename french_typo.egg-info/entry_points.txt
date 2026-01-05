@@ -1,2 +1,0 @@
-[console_scripts]
-french-typo = french_typo.cli:fix
