@@ -58,15 +58,14 @@ def format_asciidoc_file(
             continue
 
         next_line = lines[i + 1] if i + 1 < len(lines) else ""
-        prev_line = result[-1] if result else None
 
         # 🔹 Règle : ligne introductive avant une liste
-        if (
-            INTRO_LINE.match(line)
-            and BULLET_START.match(next_line)
-            and prev_line != ""
-        ):
-            result.append(line)
+        if INTRO_LINE.match(line) and BULLET_START.match(next_line):
+            formatted = format_text(
+                line,
+                add_nbsp_enabled=add_nbsp,
+            )
+            result.append(formatted)
             result.append("")
             continue
 
@@ -78,7 +77,6 @@ def format_asciidoc_file(
 
         # 2. Règles spécifiques aux listes AsciiDoc
         if BULLET_START.match(formatted):
-            next_line = lines[i + 1] if i + 1 < len(lines) else ""
             is_last = not BULLET_START.match(next_line.lstrip())
 
             formatted = punctuate_bullet_line(

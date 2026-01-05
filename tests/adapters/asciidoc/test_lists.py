@@ -72,3 +72,50 @@ def test_no_intro_colon_does_not_add_blank_line(tmp_path):
         "Il y a 3 catégories\n"
         "* item 1.\n"
     )
+
+def test_intro_sentence_before_bullet_list_adds_blank_line(tmp_path):
+    content = (
+        "Elles se composent :\n"
+        "* de savoirs théoriques ;\n"
+        "* de savoir-faire pratiques ;\n"
+        "* de capacités à combiner différentes ressources.\n"
+    )
+
+    path = tmp_path / "test.adoc"
+    path.write_text(content, encoding="utf-8")
+
+    format_asciidoc_file(path)
+
+    result = path.read_text(encoding="utf-8")
+
+    assert result == (
+        "Elles se composent :\n"
+        "\n"
+        "* de savoirs théoriques ;\n"
+        "* de savoir-faire pratiques ;\n"
+        "* de capacités à combiner différentes ressources.\n"
+    )
+    
+def test_intro_before_list_adds_blank_line_and_punctuates_first_item(tmp_path):
+    content = (
+        "Cette structure présente plusieurs avantages :\n"
+        "\n"
+        "* une forte réactivité\n"
+        "* une communication interne intense ;\n"
+        "* une capacité d’ajustement rapide aux changements.\n"
+    )
+
+    path = tmp_path / "test.adoc"
+    path.write_text(content, encoding="utf-8")
+
+    format_asciidoc_file(path)
+
+    result = path.read_text(encoding="utf-8")
+
+    assert result == (
+        "Cette structure présente plusieurs avantages :\n"
+        "\n"
+        "* une forte réactivité ;\n"
+        "* une communication interne intense ;\n"
+        "* une capacité d’ajustement rapide aux changements.\n"
+    )
