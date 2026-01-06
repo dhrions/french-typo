@@ -4,3 +4,4 @@ __pycache__
 digest.txt
 *.zip
 .coverage
+french_typo.egg-info
