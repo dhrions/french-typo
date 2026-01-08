@@ -1,8 +1,17 @@
-import re
+from french_typo.rules.spaces import normalize_spaces
 
-def normalize_spaces(text: str) -> str:
-    text = re.sub(r"[ \t]{2,}", " ", text)
-    text = re.sub(r"[ \t]+\.", ".", text)
-    text = re.sub(r"(?m)^[ \t]+", "", text)
-    text = re.sub(r"[ \t]+$", "", text)
-    return text
+
+def test_remove_multiple_spaces():
+    assert normalize_spaces("a   b") == "a b"
+
+
+def test_remove_space_before_dot():
+    assert normalize_spaces("test .") == "test."
+
+
+def test_strip_leading_spaces():
+    assert normalize_spaces("   test") == "test"
+
+
+def test_strip_trailing_spaces():
+    assert normalize_spaces("test   ") == "test"
