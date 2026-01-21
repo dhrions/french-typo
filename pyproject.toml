@@ -17,3 +17,17 @@ french-typo = "french_typo.cli:fix"
 where = ["."]
 include = ["french_typo*"]
 exclude = ["format_anki_notes*", "tests*"]
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+branch = "main"
+commit_parser = "angular"
+major_on_zero = false
+tag_format = "v{version}"
+
+[tool.semantic_release.changelog]
+exclude_commit_patterns = []
+
+[tool.semantic_release.branches.main]
+match = "main"
+prerelease = false
