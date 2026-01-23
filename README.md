@@ -178,6 +178,35 @@ Un addon Anki est déjà fourni :
 
 ---
 
+## 🛠️ Développement
+
+```bash
+# Cloner et installer en mode éditable
+git clone https://github.com/dhrions/french-typo.git
+cd french-typo
+pip install -e ".[dev]"
+
+# Lancer les tests
+pytest
+
+# Avec couverture
+pytest --cov=french_typo --cov-report=html
+```
+
+## 🐛 Troubleshooting
+
+**Caractères non affichés correctement**
+- Vérifier l'encodage UTF-8 : `file -i votre_fichier.py`
+- Assurer que Python utilise UTF-8 : `export PYTHONIOENCODING=utf-8`
+
+**Tests échouent après modification de règles**
+- Relancer avec verbose : `pytest -vv`
+- Vérifier les ordres de normalisation dans `formatter.py`
+
+**Performance lente sur gros volumes**
+- Les règles sont conçues pour la performance
+- Pour millions de mots, considérer une parallélisation externe
+
 ## 🗺️ Roadmap (idées)
 
 - Espaces insécables françaises (`; : ! ?`)
