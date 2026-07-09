@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "french-typo"
-version = "0.2.0"
+version = "1.0.0"
 description = "Moteur de correction typographique française"
 readme = { file = "README.adoc", content-type = "text/plain" }
 requires-python = ">=3.8"
