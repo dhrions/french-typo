@@ -1,5 +1,7 @@
 import re
 
+from french_typo.core.rules.nbsps import add_ordinal_suffix_nbsp
+
 
 def add_nbsp_with_anki_tags(text: str) -> str:
     """
@@ -11,17 +13,8 @@ def add_nbsp_with_anki_tags(text: str) -> str:
     text = re.sub(r'(}})\s*([:;!?%€$])', r'\1&nbsp;\2', text)
     text = re.sub(r'(}})\s*([°CkmgLhmin])', r'\1&nbsp;\2', text)
 
-    # n<sup>o</sup> suivi d'un chiffre ou d'une cloze
-    text = re.sub(r'(n<sup>o)&nbsp;</sup>(\{\{.*?\}\})', r'\1</sup>&nbsp;\2', text)
-    text = re.sub(r'(n<sup>o</sup>)(\{\{.*?\}\})', r'\1&nbsp;\2', text)
-    text = re.sub(r'(n<sup>o</sup>)\s*(\d+)', r'\1&nbsp;\2', text)
-
-    # espace après suffixes ordinaux HTML
-    text = re.sub(
-        r'(<sup>er</sup>|<sup>o</sup>|<sup>e</sup>|<sup>d</sup>)\s+',
-        r'\1&nbsp;',
-        text,
-    )
+    # n<sup>o</sup> et suffixes ordinaux HTML suivis d'un chiffre ou d'une cloze
+    text = add_ordinal_suffix_nbsp(text)
 
     return text
 

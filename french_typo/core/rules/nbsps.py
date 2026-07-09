@@ -4,6 +4,23 @@ def remove_all_nbsp(text):
     """Supprime toutes les occurrences de &nbsp; dans le texte."""
     return text.replace('&nbsp;', ' ')
 
+def add_ordinal_suffix_nbsp(text):
+    """
+    Ajoute les espaces insécables autour des suffixes ordinaux au format HTML
+    (n<sup>o</sup>, <sup>er</sup>, <sup>e</sup>, <sup>d</sup>), y compris
+    lorsqu'ils sont suivis d'une balise cloze Anki ({{...}}).
+    """
+    # Gestion spécifique de n<sup>o</sup> suivi d'un chiffre ou d'une balise Anki
+    text = re.sub(r'(n<sup>o)&nbsp;<\/sup>(\{\{.*?\}\})', r'\1</sup>&nbsp;\2', text)
+    text = re.sub(r'(n<sup>o<\/sup>)(\{\{.*?\}\})', r'\1&nbsp;\2', text)
+    text = re.sub(r'(n<sup>o<\/sup>)(\s*)(\d+)', r'\1&nbsp;\3', text)
+
+    # Espace insécable après les suffixes ordinaux au format HTML
+    text = re.sub(r'(<sup>er<\/sup>|<sup>o<\/sup>|<sup>e<\/sup>|<sup>d<\/sup>)\s+', r'\1&nbsp;', text)
+
+    return text
+
+
 def add_nbsp(text):
     """
     Ajoute des espaces insécables selon les règles typographiques françaises.
@@ -49,14 +66,7 @@ def add_nbsp(text):
     symbols = r'%|€|\$'
     text = re.sub(rf'(\d)\s*({symbols})', r'\1&nbsp;\2', text)
 
-    # Gestion spécifique de n<sup>o</sup> suivi d'un chiffre ou d'une balise Anki
-    text = re.sub(r'(n<sup>o)&nbsp;<\/sup>(\{\{.*?\}\})', r'\1</sup>&nbsp;\2', text)
-    text = re.sub(r'(n<sup>o<\/sup>)(\{\{.*?\}\})', r'\1&nbsp;\2', text)
-    text = re.sub(r'(n<sup>o<\/sup>)(\s*)(\d+)', r'\1&nbsp;\3', text)
-    
-    # Espace insécable après les suffixes ordinaux au format HTML
-    text = re.sub(r'(<sup>er<\/sup>|<sup>o<\/sup>|<sup>e<\/sup>|<sup>d<\/sup>)\s+', r'\1&nbsp;', text)
-
+    text = add_ordinal_suffix_nbsp(text)
 
     return text
 
