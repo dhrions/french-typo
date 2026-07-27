@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v1.2.1 (2026-07-27)
+
+### 🐛
+
+- 🐛 fix(ci): ne publier sur PyPI que si semantic-release a réellement bumpé
+  ([`fd5d83a`](https://github.com/dhrions/french-typo/commit/fd5d83a585972aaacdad2ad0a7e36a607ce87e6f))
+
+Les jobs Release des commits docs-only (📚, 🗺️ — non mappés dans commit_parser_options) échouaient
+  systématiquement (runs #4, #5 sur GitHub Actions) : Build package et Publish to PyPI s'exécutaient
+  sans condition, re-uploadant le wheel de la version déjà publiée. PyPI refuse tout re-upload d'un
+  fichier de version existante -> échec de 'Publish to PyPI' à chaque commit sans bump.
+
+Ajout d'une étape 'Determine next version' qui compare 'semantic-release version
+  --print-last-released' et '--print' (stdout uniquement, le message informatif de psr va sur stderr
+  — vérifié localement) pour déterminer si un nouveau tag serait créé. Semantic Release, Build
+  package et Publish to PyPI sont maintenant conditionnés sur ce résultat.
+
+Vérifié localement : sur l'état actuel (1.2.0 déjà publié, aucun commit de bump depuis), le script
+  produit released=false comme attendu.
+
+
 ## v1.2.0 (2026-07-27)
 
 ### Other
