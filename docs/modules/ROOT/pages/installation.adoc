@@ -1,0 +1,31 @@
+= Installation
+
+== Prérequis
+
+* Python 3.8+
+* pip
+
+== Installation via pip (recommandée)
+
+[source,bash]
+----
+pip install french-typo
+----
+
+== Installation pour le développement
+
+[source,bash]
+----
+git clone https://github.com/dhrions/french-typo.git
+cd french-typo
+python -m venv env
+source env/bin/activate
+pip install -e ".[dev]"
+----
+
+Vérification :
+
+[source,bash]
+----
+french-typo --version
+----

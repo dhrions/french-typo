@@ -1,0 +1,34 @@
+= French Typo
+:page-description: Moteur de correction typographique française (core Python, CLI, intégrations Anki/AsciiDoc).
+
+== ⚡ TL;DR
+
+* 📝 Applique les règles typographiques françaises usuelles (espaces insécables, unités, ordinaux) à du texte, un fichier AsciiDoc ou une note Anki
+* 🎯 Quand : en bibliothèque Python dans un autre outil, en CLI sur des fichiers `.adoc`, ou comme add-on Anki
+* 🚀 `french-typo mon_fichier.adoc` — corrige un fichier AsciiDoc en place
+
+**French Typo** est un moteur de correction typographique française écrit en Python. Il applique automatiquement les règles typographiques usuelles (conformes au
+link:https://les-unpertinents.fr/Manuscrits/Lexique%20des%20r%C3%A8gles%20typographiques%20en%20usage%20%C3%A0%20l%27Imprimerie%20nationale2.pdf[lexique de l'Imprimerie nationale]) :
+
+* espaces insécables avant les ponctuations doubles (`: ; ? ! % €`),
+* normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.),
+* formatage des ordinaux (`1er` → `1<sup>er</sup>`, `n°4` → `n<sup>o</sup>4`),
+* suppression des espaces multiples,
+* gestion des guillemets français (« »).
+
+Le projet est structuré autour d'un **core Python pur** réutilisable partout, d'une **CLI** pour le traitement de fichiers, et d'**adaptateurs** pour des environnements spécifiques (Anki, AsciiDoc).
+
+== ✨ Fonctionnalités principales
+
+* Moteur typographique indépendant (sans dépendance UI)
+* API Python simple et stable
+* Interface en ligne de commande pour AsciiDoc
+* Intégration Anki (HTML + cloze)
+* Tests unitaires couvrant le core
+
+== Pour en savoir plus
+
+* xref:installation.adoc[🚀 Installation]
+* xref:usage.adoc[💻 Utilisation]
+* xref:workflows.adoc[🔄 Workflows]
+* xref:semantic-release.adoc[📦 Semantic Release]

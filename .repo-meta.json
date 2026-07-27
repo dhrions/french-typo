@@ -1,0 +1,11 @@
+{
+  "title": "French Typo",
+  "description": "Moteur de correction typographique française (core Python, CLI, intégrations Anki/AsciiDoc)",
+  "category": "Outils de Développement",
+  "status": "active",
+  "icon": "📝",
+  "links": {
+    "homepage": "https://github.com/dhrions/french-typo",
+    "repository": "https://gitea.dhrions.fr/dhrions/french-typo"
+  }
+}

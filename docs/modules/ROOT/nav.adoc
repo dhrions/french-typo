@@ -1,0 +1,5 @@
+* 🏠 xref:index.adoc[Accueil]
+* 🚀 xref:installation.adoc[Installation]
+* 💻 xref:usage.adoc[Utilisation]
+* 🔄 xref:workflows.adoc[Workflows]
+* 📦 xref:semantic-release.adoc[Semantic Release]

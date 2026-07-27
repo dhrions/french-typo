@@ -1,0 +1,56 @@
+= Utilisation
+
+== En tant que bibliothèque Python
+
+[source,python]
+----
+from french_typo import format_text
+
+text = "Voir n°4 : 10 KM et article 5."
+result = format_text(text, add_nbsp_enabled=True)
+
+print(result)
+# Voir n<sup>o</sup>&nbsp;4&nbsp;: 10&nbsp;km et article&nbsp;5.
+----
+
+`add_nbsp_enabled` insère les espaces insécables (`&nbsp;`) ; désactivé par défaut.
+
+== Via la CLI
+
+French Typo fournit une commande `french-typo` pour corriger des fichiers AsciiDoc.
+
+[source,bash]
+----
+french-typo mon_fichier.adoc
+----
+
+Ou récursivement sur un dossier :
+
+[source,bash]
+----
+french-typo docs/
+----
+
+Les fichiers sont modifiés *in place*. L'option `--nbsp` active les espaces insécables (désactivée par défaut pour AsciiDoc).
+
+== Intégrations
+
+=== Anki
+
+Le dépôt contient une intégration Anki historique (`format_anki_notes/`), qui utilise le moteur
+`french_typo.core` (via `french_typo.adapters.anki.formatter.format_anki_html`) pour formater les champs des notes :
+
+* formatage d'une note individuelle depuis l'éditeur ;
+* formatage par lot depuis le navigateur ;
+* gestion des cloze (`{{c1::...}}`) et du HTML.
+
+⚠️ Cette partie dépend de l'API Anki (`aqt`) et **n'est pas incluse dans le paquet PyPI** (exclue du build via `exclude` dans `pyproject.toml`).
+
+=== AsciiDoc
+
+L'adaptateur AsciiDoc (`french_typo.adapters.asciidoc.formatter.format_asciidoc_file`) permet de corriger automatiquement :
+
+* les paragraphes standards ;
+* en ignorant les blocs littéraux (`----`) ;
+* en ignorant les commentaires (`//`) ;
+* en ponctuant les listes (`;` pour les items intermédiaires, `.` pour le dernier).
