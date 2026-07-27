@@ -46,7 +46,22 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Determine next version
+        id: next_version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CURRENT=$(semantic-release version --print-last-released 2>/dev/null)
+          NEXT=$(semantic-release version --print 2>/dev/null)
+          echo "Version actuelle : $CURRENT — prochaine version : $NEXT"
+          if [ "$CURRENT" = "$NEXT" ]; then
+            echo "released=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "released=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Semantic Release
+        if: steps.next_version.outputs.released == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -54,7 +69,9 @@ jobs:
           semantic-release publish
 
       - name: Build package
+        if: steps.next_version.outputs.released == 'true'
         run: python -m build
 
       - name: Publish to PyPI
+        if: steps.next_version.outputs.released == 'true'
         uses: pypa/gh-action-pypi-publish@release/v1
