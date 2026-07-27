@@ -10,7 +10,7 @@ Feuille de route de **French Typo**
 ### Positionnement du moteur
 - [x] **Moteur autonome** : cœur typographique pur, sans dépendance à une interface ou à un environnement hôte
 - [x] **Périmètre clarifié** : le dépôt ne porte que le moteur et sa CLI, les intégrations applicatives vivent dans leurs propres dépôts
-- [ ] **Source unique des règles typographiques** : toute règle appliquée par un consommateur provient du moteur, aucun consommateur n'a besoin de réimplémenter ou de figer une copie
+- [x] **Source unique des règles typographiques** : toute règle applicable au HTML Anki (ajout et nettoyage de nbsp, ordinaux, unités, guillemets, cloze) est portée par le moteur via `format_anki_html`, point d'entrée désormais testé et idempotent — reste au consommateur de s'y brancher
 
 ### Distribution
 - [x] **Publication PyPI automatisée** : release déclenchée par les commits, gatée par les tests
