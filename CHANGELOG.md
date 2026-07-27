@@ -1,6 +1,103 @@
 # CHANGELOG
 
 
+## v1.2.0 (2026-07-27)
+
+### Other
+
+- ✅ test(anki): fiabiliser le point d'entrée format_anki_html
+  ([`b218b83`](https://github.com/dhrions/french-typo/commit/b218b83ccea5afe3f69f9857cfa35bd86ab67638))
+
+Troisième volet du jalon roadmap 'source unique des règles typographiques'. format_anki_html() — le
+  point d'entrée censé être LE point de composition core + règles Anki — n'avait aucun test :
+  impossible de vérifier que l'assemblage (core -> nettoyage core -> règles Anki -> dédoublonnage ->
+  nettoyage HTML/cloze) ne produisait pas d'artefact.
+
+Ajouté : - Cas bout-en-bout repris de anki_french_typo/tests/test_formatter.py - Test d'idempotence
+  explicite (objectif ROADMAP.md 'Idempotence garantie'), sur guillemets, unités, ordinaux, cloze et
+  balises HTML - Test de composition cloze + guillemets + ordinal ensemble
+
+Confronté manuellement aux fixtures de anki-french-typo/tests/ (lecture seule) pour vérifier
+  l'équivalence de comportement.
+
+56 tests verts.
+
+- 📚 docs: corriger convention émojis dans nav et pages, ajouter workflow déploiement
+  ([`c6677cc`](https://github.com/dhrions/french-typo/commit/c6677cc9ba478df87018baf59004b5dda9e291fe))
+
+- nav.adoc : déplacer émojis à l'intérieur des xref labels (Antora supprime orphelins) — pattern :
+  xref:page.adoc[🏠 Label] au lieu de 🏠 xref:... - installation.adoc, usage.adoc, workflows.adoc,
+  semantic-release.adoc : ajouter émojis aux titres H2 pour cohérence interne avec README -
+  .gitea/workflows/docs.yml : créer le workflow de build + déploiement Antora sur docs.dhrions.fr,
+  plus trigger cross-repo de régénération de l'index repos-meta (via REPOS_META_DISPATCH_TOKEN)
+
+- 🔥 refactor: supprimer l'add-on Anki legacy format_anki_notes/
+  ([`0d96468`](https://github.com/dhrions/french-typo/commit/0d964681089ebb57504a6c817f2db643135c4811))
+
+Supplanté par le dépôt autonome anki-french-typo, qui consomme french-typo depuis PyPI et fournit
+  une UI complète (éditeur, navigateur, réviseur). Le legacy n'avait plus de commit fonctionnel
+  depuis le 2026-01-03, soit deux jours avant le premier commit d'anki-french-typo.
+
+Supprimés : - format_anki_notes/ (add-on legacy et ses 10 modules) - tests/format_anki_notes/,
+  tests/test_format_anki_notes.py, tests/test_logger.py - tests/conftest.py (stub aqt : plus aucun
+  test ne dépend d'Anki) - meta.json (manifeste de l'add-on legacy)
+
+Conservé : french_typo/adapters/anki/, l'adaptateur du moteur, consommé par anki-french-typo.
+
+Le dépôt ne contient plus que le moteur et sa CLI — plus aucune dépendance à aqt, y compris en test.
+  36 tests verts.
+
+- 🗺️ docs: ajouter ROADMAP.md et les renvois depuis README et index Antora
+  ([`892cf47`](https://github.com/dhrions/french-typo/commit/892cf47f9667440d1d2b79a38465c53637716e5e))
+
+Feuille de route au niveau jalon (charte conventions-suivi-taches.adoc) : positionnement du moteur
+  comme source unique des règles, complétion de la typographie française, élargissement des formats,
+  extensibilité long terme.
+
+README.adoc et docs/.../index.adoc y renvoient par un lien, sans recopier la feuille de route
+  (source unique).
+
+- 🗺️ docs: cocher le jalon 'source unique des règles typographiques'
+  ([`3ad70c5`](https://github.com/dhrions/french-typo/commit/3ad70c58e21a8ce7d49a70fe6c14301c0b591b2d))
+
+Atteint côté moteur : catégorie de nettoyage nbsp ajoutée, règles HTML manquantes complétées dans
+  l'adaptateur Anki, point d'entrée format_anki_html testé et idempotent. Le moteur ne force plus
+  aucun consommateur à réimplémenter ces règles localement — commits 8757b22, 9915112, b218b83.
+
+### ✨
+
+- ✨ feat(anki): compléter les règles HTML-spécifiques manquantes
+  ([`9915112`](https://github.com/dhrions/french-typo/commit/991511210697ed55cdd6cda54ff417c4b171f0d2))
+
+Deuxième volet du jalon roadmap 'source unique des règles typographiques'. Deux capacités manquaient
+  dans l'adaptateur Anki, forçant une réimplémentation côté add-on (anki_french_typo/rules.py) :
+
+- Ponctuation collée sans espace à une balise fermante (</b>: -> </b>&nbsp;:) — le core ne gère que
+  le cas avec espace - Nettoyage des nbsp mal placés après une balise HTML fermante ou après une
+  cloze }} — le moteur ne savait qu'ajouter du nbsp, jamais en corriger un mal placé dans ce
+  contexte
+
+nbsp_before_punctuation_after_tag, clean_nbsp_after_html_tags et clean_nbsp_after_cloze rejoignent
+  format_anki_specific_rules(), dans l'ordre validé par l'add-on (ajout -> dédoublonnage ->
+  nettoyage).
+
+tests/adapters/anki/test_rules.py était vide malgré son nom — comblé.
+
+- ✨ feat(core): ajouter une catégorie de règles de nettoyage nbsp
+  ([`8757b22`](https://github.com/dhrions/french-typo/commit/8757b22d5bc73ebe2879e448843402e7f318db7a))
+
+Le moteur ne savait qu'ajouter du nbsp (add_nbsp) ou tout supprimer (remove_all_nbsp) — rien pour
+  corriger un nbsp mal placé après une virgule ou en début de ligne. C'était l'une des deux lacunes
+  empêchant le jalon roadmap 'source unique des règles typographiques' : l'add-on Anki avait dû
+  écrire cette catégorie lui-même (anki_french_typo/rules.py).
+
+Ajouté : - french_typo/core/rules/nbsp_cleanup.py : clean_nbsp_after_comma, clean_leading_nbsp -
+  Composées dans format_text(), après add_nbsp, sous le même flag add_nbsp_enabled
+
+Corrigé au passage : add_nbsp() sur les guillemets n'était pas idempotent (ré-appliquer le formatage
+  doublait le nbsp autour de « »). Ajout des gardes négatives déjà présentes côté add-on.
+
+
 ## v1.1.0 (2026-07-27)
 
 ### Other
