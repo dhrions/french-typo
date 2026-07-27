@@ -1,9 +1,11 @@
 import click
 from pathlib import Path
+from french_typo import __version__
 from french_typo.adapters.asciidoc.formatter import format_asciidoc_file
 
 
 @click.command()
+@click.version_option(version=__version__, prog_name="french-typo")
 @click.argument("path", type=click.Path(exists=True))
 @click.option(
     "--nbsp",
@@ -22,7 +24,7 @@ def fix(path, nbsp):
         for file in p.rglob("*.adoc"):
             format_asciidoc_file(file, add_nbsp=nbsp)
     else:
-        raise click.BadParameter("Chemin invalide")
+        raise click.BadParameter("❌ Chemin invalide")
 
 
 if __name__ == "__main__":

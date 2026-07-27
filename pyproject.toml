@@ -20,10 +20,20 @@ exclude = ["format_anki_notes*", "tests*"]
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:project.version"]
+version_variables = ["french_typo/__init__.py:__version__"]
 branch = "main"
-commit_parser = "angular"
+# Commits gitmoji : le parser "emoji" est obligatoire ("angular" ne parse pas un en-tête
+# préfixé d'un emoji -> aucun bump, aucune erreur). Voir repos-meta/CLI_STANDARDS.md.
+commit_parser = "emoji"
 major_on_zero = false
 tag_format = "v{version}"
+# [skip ci] : évite que le commit de release redéclenche un run.
+commit_message = "🔖 chore(release): {version} [skip ci]"
+
+[tool.semantic_release.commit_parser_options]
+major_tags = ["💥"]
+minor_tags = ["✨"]
+patch_tags = ["🐛", "🚑", "⚡", "🔒"]
 
 [tool.semantic_release.changelog]
 exclude_commit_patterns = []
