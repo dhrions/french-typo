@@ -1,18 +1,18 @@
 = Installation
 
-== Prérequis
+== 📋 Prérequis
 
 * Python 3.8+
 * pip
 
-== Installation via pip (recommandée)
+== 📦 Installation via pip (recommandée)
 
 [source,bash]
 ----
 pip install french-typo
 ----
 
-== Installation pour le développement
+== 🛠️ Installation pour le développement
 
 [source,bash]
 ----

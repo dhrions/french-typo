@@ -2,10 +2,10 @@
 
 French Typo utilise GitHub Actions (`.github/workflows/`), pas Gitea Actions : la publication PyPI via trusted publishing (OIDC) nécessite l'environnement GitHub.
 
-== tests.yml
+== 🧪 tests.yml
 
 Exécute la suite `pytest` sur chaque push/PR vers `main`, sur une matrice Python 3.10/3.11/3.12.
 
-== release.yml
+== 🚀 release.yml
 
 Enchaîne un job `test` (bloquant, `needs: test`) puis la release semantic-release (bump de version, changelog, tag, publication PyPI) — voir xref:semantic-release.adoc[📦 Semantic Release].

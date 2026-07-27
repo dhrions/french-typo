@@ -1,0 +1,98 @@
+name: Build and Deploy Antora Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - '.gitea/workflows/docs.yml'
+      - '.repo-meta.json'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: docs-deploy
+    container:
+      volumes:
+        - /home/dockeradmin/docker/nginx-docs/html:/deploy
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Antora
+        run: npm install -g @antora/cli @antora/site-generator
+
+      - name: Build documentation
+        working-directory: docs
+        run: antora --fetch antora-playbook.yml
+
+      - name: Deploy documentation
+        run: |
+          echo "Deploying documentation..."
+
+          # Copy shared assets (CSS, JS, fonts) to root
+          cp -r docs/build/_/ /deploy/dhrions/_/
+          chmod -R 755 /deploy/dhrions/_/
+
+          # Deploy component docs
+          rm -rf /deploy/dhrions/french-typo
+          mkdir -p /deploy/dhrions/french-typo
+          cp -r docs/build/french-typo/* /deploy/dhrions/french-typo/
+
+          # Create redirect index.html
+          cat > /deploy/dhrions/french-typo/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=main/index.html">
+            <title>Redirecting...</title>
+          </head>
+          <body>
+            <p>Redirecting to <a href="main/index.html">documentation</a>...</p>
+          </body>
+          </html>
+          EOF
+          chmod -R 755 /deploy/dhrions/french-typo
+          echo "Deployment complete!"
+          ls -la /deploy/dhrions/french-typo/
+
+      - name: Deploy project metadata and icon
+        run: |
+          # Copy .repo-meta.json if it exists at the repo root
+          if [ -f ".repo-meta.json" ]; then
+            cp .repo-meta.json /deploy/dhrions/french-typo/.repo-meta.json
+            echo "Deployed .repo-meta.json"
+
+            # Extract image field and copy the icon if specified
+            ICON=$(node -e "try{const m=JSON.parse(require('fs').readFileSync('.repo-meta.json','utf8'));if(m.image)console.log(m.image)}catch(e){}")
+            if [ -n "$ICON" ] && [ -f "$ICON" ]; then
+              cp "$ICON" /deploy/dhrions/french-typo/"$ICON"
+              echo "Deployed icon: $ICON"
+            fi
+          fi
+
+      - name: Trigger repos-meta index regeneration
+        if: success()
+        env:
+          GITEA_TOKEN: ${{ secrets.REPOS_META_DISPATCH_TOKEN }}
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: token ${GITEA_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"ref":"main"}' \
+            "https://gitea.dhrions.fr/api/v1/repos/dhrions/repos-meta/actions/workflows/docs.yml/dispatches")
+          if [ "$HTTP_CODE" = "204" ] || [ "$HTTP_CODE" = "200" ]; then
+            echo "Successfully triggered repos-meta index regeneration"
+          else
+            echo "::warning::Failed to trigger repos-meta index regeneration (HTTP $HTTP_CODE). The project index may not be updated."
+          fi

@@ -1,6 +1,6 @@
 = Utilisation
 
-== En tant que bibliothèque Python
+== 🐍 En tant que bibliothèque Python
 
 [source,python]
 ----
@@ -15,7 +15,7 @@ print(result)
 
 `add_nbsp_enabled` insère les espaces insécables (`&nbsp;`) ; désactivé par défaut.
 
-== Via la CLI
+== ⌨️ Via la CLI
 
 French Typo fournit une commande `french-typo` pour corriger des fichiers AsciiDoc.
 
@@ -33,7 +33,7 @@ french-typo docs/
 
 Les fichiers sont modifiés *in place*. L'option `--nbsp` active les espaces insécables (désactivée par défaut pour AsciiDoc).
 
-== Intégrations
+== 🔌 Intégrations
 
 === Anki
 

@@ -2,7 +2,7 @@
 
 French Typo publie ses versions sur PyPI via https://python-semantic-release.readthedocs.io/[python-semantic-release], déclenché par le job `release` de xref:workflows.adoc[🔄 Workflows] après succès des tests.
 
-== Convention de commit
+== 🔤 Convention de commit
 
 Le parser `emoji` est utilisé (pas `angular`) : le type de bump est déterminé par l'emoji en tête du message de commit.
 
@@ -22,6 +22,6 @@ Le parser `emoji` est utilisé (pas `angular`) : le type de bump est déterminé
 
 Un commit sans emoji reconnu ne déclenche aucun bump.
 
-== Version
+== 📌 Version
 
 Le numéro de version est synchronisé entre `pyproject.toml` (`project.version`) et `french_typo/__init__.py` (`__version__`), tous deux déclarés respectivement dans `version_toml`/`version_variables`.
