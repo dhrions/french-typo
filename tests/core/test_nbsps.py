@@ -1,4 +1,4 @@
-from french_typo.core.rules.nbsps import remove_all_nbsp
+from french_typo.core.rules.nbsps import remove_all_nbsp, add_nbsp
 
 
 def test_remove_all_nbsp_basic():
@@ -23,3 +23,8 @@ def test_remove_all_nbsp_edges():
 
 def test_remove_all_nbsp_mixed_spaces():
     assert remove_all_nbsp("Hello&nbsp; world&nbsp;!") == "Hello  world !"
+
+
+def test_add_nbsp_guillemets_idempotent():
+    once = add_nbsp("« Bonjour »")
+    assert add_nbsp(once) == once

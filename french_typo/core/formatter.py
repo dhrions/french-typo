@@ -4,6 +4,8 @@ from .rules import (
     normalize_units,
     format_sup_numbers,
     add_nbsp,
+    clean_nbsp_after_comma,
+    clean_leading_nbsp,
 )
 
 
@@ -26,5 +28,7 @@ def format_text(
 
     if add_nbsp_enabled:
         text = add_nbsp(text)
+        text = clean_nbsp_after_comma(text)
+        text = clean_leading_nbsp(text)
 
     return text

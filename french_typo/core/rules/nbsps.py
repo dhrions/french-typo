@@ -25,10 +25,11 @@ def add_nbsp(text):
     """
     Ajoute des espaces insécables selon les règles typographiques françaises.
     """
-    # Espace insécable après les guillemets ouvrants
-    text = re.sub(r'«\s+', '«&nbsp;', text)
-    # Espace insécable avant les guillemets fermants
-    text = re.sub(r'\s+»', '&nbsp;»', text)
+    # Espace insécable après les guillemets ouvrants (idempotent : ne double pas
+    # le nbsp si le texte a déjà été formaté)
+    text = re.sub(r'«(?!&nbsp;)\s*', '«&nbsp;', text)
+    # Espace insécable avant les guillemets fermants (idempotent)
+    text = re.sub(r'(?<!&nbsp;)\s*»', '&nbsp;»', text)
 
     # On traite d'abord les cas spéciaux "?!" et "? !" en les marquant temporairement
     text = text.replace('?!', '___QUESTION_EXCLAMATION___')
