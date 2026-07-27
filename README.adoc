@@ -176,6 +176,13 @@ pytest
 
 ---
 
+== 🗺️ Feuille de route
+
+Les jalons du projet sont décrits dans link:ROADMAP.md[ROADMAP.md] ; le backlog technique
+détaillé vit dans link:TODO.md[TODO.md].
+
+---
+
 == 📜 Licence
 
 Ce projet est distribué sous licence MIT.
