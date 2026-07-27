@@ -1,16 +1,20 @@
 Metadata-Version: 2.4
 Name: french-typo
-Version: 0.2.0
+Version: 1.1.0
 Summary: Moteur de correction typographique française
 Requires-Python: >=3.8
 Description-Content-Type: text/plain
 License-File: LICENSE
 Requires-Dist: click>=8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.0; extra == "dev"
+Requires-Dist: python-semantic-release<10,>=9; extra == "dev"
 Dynamic: license-file
 
 = French Typo
 Dhrions
-0.2.0
+Version 1.0.0, 27/07/2026
 :sectnums:
 :toc:
 :toclevels: 3
@@ -20,43 +24,49 @@ Dhrions
 :icons: font
 
 ifdef::env-github[]
-image:https://img.shields.io/badge/version-0.2.0-blue[]
+image:https://img.shields.io/badge/version-1.0.0-blue[]
 image:https://img.shields.io/badge/license-MIT-green[]
 image:https://img.shields.io/badge/python-3.8%2B-blue[]
 endif::[]
 
-== Introduction
+== ⚡ TL;DR
+
+* 📝 Corrige la typographie française usuelle (espaces insécables, unités, ordinaux) d'un texte, d'un fichier AsciiDoc ou d'une note Anki
+* 🎯 Quand : en bibliothèque Python dans un autre outil, en CLI sur des fichiers `.adoc`, ou comme add-on Anki
+* 🚀 `french-typo mon_fichier.adoc` — corrige un fichier AsciiDoc en place
+
+== 📖 Introduction
 
 **French Typo** est un moteur de correction typographique française écrit en Python.
 
 Il applique automatiquement les règles typographiques françaises usuelles (conformes au
 link:https://les-unpertinents.fr/Manuscrits/Lexique%20des%20r%C3%A8gles%20typographiques%20en%20usage%20%C3%A0%20l%27Imprimerie%20nationale2.pdf[lexique de l’Imprimerie nationale]) :
 
-* espaces insécables avant les ponctuations doubles (`: ; ? ! % €`),
-* normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.),
-* formatage des ordinaux (`1er` → `1<sup>er</sup>`, `n°4` → `n<sup>o</sup>4`),
-* suppression des espaces multiples,
-* gestion des guillemets français (« »).
+* 📏 espaces insécables avant les ponctuations doubles (`: ; ? ! % €`),
+* 🔠 normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.),
+* 🔢 formatage des ordinaux (`1er` → `1<sup>er</sup>`, `n°4` → `n<sup>o</sup>4`),
+* ✂️ suppression des espaces multiples,
+* 🔤 gestion des guillemets français (« »).
 
 Le projet est structuré autour :
-* d’un **core Python pur**, réutilisable partout ;
-* d’une **CLI** pour le traitement de fichiers ;
-* d’**adaptateurs** pour des environnements spécifiques (Anki, AsciiDoc).
+* 🧩 d’un **core Python pur**, réutilisable partout ;
+* 💻 d’une **CLI** pour le traitement de fichiers ;
+* 🔌 d’**adaptateurs** pour des environnements spécifiques (Anki, AsciiDoc).
 
 ---
 
-== Fonctionnalités
+== ✨ Fonctionnalités
 
-* ✔️ Moteur typographique indépendant (sans dépendance UI)
-* ✔️ API Python simple et stable
-* ✔️ Interface en ligne de commande
-* ✔️ Support d’AsciiDoc
-* ✔️ Intégration Anki (HTML + cloze)
-* ✔️ Tests unitaires couvrant le core
+* ✅ Moteur typographique indépendant (sans dépendance UI)
+* ✅ API Python simple et stable
+* ✅ Interface en ligne de commande
+* ✅ Support d’AsciiDoc
+* ✅ Intégration Anki (HTML + cloze)
+* ✅ Tests unitaires couvrant le core
 
 ---
 
-== Installation
+== 🚀 Installation
 
 === Installation via pip (recommandée)
 
@@ -67,32 +77,22 @@ pip install french-typo
 
 ---
 
-== Utilisation
+== 💻 Utilisation
 
 === Utilisation en tant que bibliothèque Python
 
 [source,python]
 ----
-from french_typo.core.formatter import format_text
-from french_typo.core.profiles import TypoProfile
+from french_typo import format_text
 
 text = "Voir n°4 : 10 KM et article 5."
-result = format_text(text)
+result = format_text(text, add_nbsp_enabled=True)
 
 print(result)
 # Voir n<sup>o</sup>&nbsp;4&nbsp;: 10&nbsp;km et article&nbsp;5.
 ----
 
-=== Profils disponibles
-
-* `TypoProfile.PLAIN` : texte brut
-* `TypoProfile.ANKI` : HTML + cloze Anki
-* `TypoProfile.ASCIIDOCT` : texte AsciiDoc
-
-[source,python]
-----
-format_text("« {{c1::test}} »", profile=TypoProfile.ANKI)
-----
+`add_nbsp_enabled` insère les espaces insécables (`&nbsp;`) ; désactivé par défaut.
 
 ---
 
@@ -116,18 +116,18 @@ Les fichiers sont modifiés *in place*.
 
 ---
 
-== Intégrations
+== 🔗 Intégrations
 
 === Anki
 
-Le dépôt contient une intégration Anki historique (`format_anki_notes/`), qui utilise le moteur
-`french_typo.core` pour formater les champs des notes :
+Le moteur expose un adaptateur Anki (`french_typo.adapters.anki`) qui applique la typographie au
+HTML des champs de notes :
 
-* formatage d’une note individuelle ;
-* formatage par lot depuis le navigateur ;
-* gestion des cloze (`{{c1::...}}`) et du HTML.
+* 🔤 gestion des cloze (`{{c1::...}}`) et du HTML ;
+* 📝 espaces insécables adaptés au rendu Anki.
 
-⚠️ Cette partie dépend de l’API Anki (`aqt`) et **n’est pas incluse dans le paquet PyPI**.
+L’add-on Anki qui consomme cet adaptateur vit dans un dépôt séparé :
+link:https://github.com/dhrions/anki-french-typo[anki-french-typo].
 
 ---
 
@@ -135,13 +135,13 @@ Le dépôt contient une intégration Anki historique (`format_anki_notes/`), qui
 
 L’adaptateur AsciiDoc permet de corriger automatiquement :
 
-* les paragraphes standards ;
-* en ignorant les blocs littéraux (`----`) ;
-* en ignorant les commentaires (`//`).
+* 📄 les paragraphes standards ;
+* 🚫 en ignorant les blocs littéraux (`----`) ;
+* 🚫 en ignorant les commentaires (`//`).
 
 ---
 
-== Architecture du projet
+== 🏗️ Architecture du projet
 
 [source]
 ----
@@ -150,13 +150,16 @@ french-typo/
 │   ├── core/              # Moteur typographique pur
 │   ├── adapters/          # Intégrations (Anki, AsciiDoc)
 │   └── cli.py             # Interface CLI
-├── format_anki_notes/     # Add-on Anki (hors PyPI)
 └── tests/                 # Tests unitaires
 ----
 
+Le dépôt ne contient que le moteur et sa CLI. Les intégrations applicatives (comme l’add-on
+link:https://github.com/dhrions/anki-french-typo[anki-french-typo]) vivent dans leurs propres
+dépôts et consomment `french-typo` depuis PyPI.
+
 ---
 
-== Développement
+== 🛠️ Développement
 
 === Installation pour le développement
 
@@ -166,8 +169,7 @@ git clone https://github.com/dhrions/french-typo.git
 cd french-typo
 python -m venv env
 source env/bin/activate
-pip install -e .
-pip install -r requirements.txt
+pip install -e ".[dev]"
 ----
 
 === Exécuter les tests
@@ -179,16 +181,16 @@ pytest
 
 ---
 
-== Philosophie du projet
+== 💭 Philosophie du projet
 
-* séparation stricte entre **moteur** et **interfaces** ;
-* API simple, explicite, testée ;
-* aucune dépendance lourde dans le core ;
-* extensible vers d’autres formats (Markdown, LaTeX, etc.).
+* 🧱 séparation stricte entre **moteur** et **interfaces** ;
+* 🎯 API simple, explicite, testée ;
+* 🪶 aucune dépendance lourde dans le core ;
+* 🔮 extensible vers d’autres formats (Markdown, LaTeX, etc.).
 
 ---
 
-== Licence
+== 📜 Licence
 
-Ce projet est distribué sous licence MIT.  
+Ce projet est distribué sous licence MIT.
 Voir le fichier link:LICENSE[LICENSE].

@@ -106,14 +106,14 @@ Les fichiers sont modifiés *in place*.
 
 === Anki
 
-Le dépôt contient une intégration Anki historique (`format_anki_notes/`), qui utilise le moteur
-`french_typo.core` pour formater les champs des notes :
+Le moteur expose un adaptateur Anki (`french_typo.adapters.anki`) qui applique la typographie au
+HTML des champs de notes :
 
-* 📝 formatage d’une note individuelle ;
-* 📚 formatage par lot depuis le navigateur ;
-* 🔤 gestion des cloze (`{{c1::...}}`) et du HTML.
+* 🔤 gestion des cloze (`{{c1::...}}`) et du HTML ;
+* 📝 espaces insécables adaptés au rendu Anki.
 
-⚠️ Cette partie dépend de l’API Anki (`aqt`) et **n’est pas incluse dans le paquet PyPI**.
+L’add-on Anki qui consomme cet adaptateur vit dans un dépôt séparé :
+link:https://github.com/dhrions/anki-french-typo[anki-french-typo].
 
 ---
 
@@ -136,11 +136,12 @@ french-typo/
 │   ├── core/              # Moteur typographique pur
 │   ├── adapters/          # Intégrations (Anki, AsciiDoc)
 │   └── cli.py             # Interface CLI
-├── format_anki_notes/     # Add-on Anki (hors PyPI)
 └── tests/                 # Tests unitaires
 ----
 
-`format_anki_notes/` (add-on Anki legacy, exclu du build pip via `exclude` dans `pyproject.toml`) dépend de `french_typo/`, publié séparément sur PyPI.
+Le dépôt ne contient que le moteur et sa CLI. Les intégrations applicatives (comme l’add-on
+link:https://github.com/dhrions/anki-french-typo[anki-french-typo]) vivent dans leurs propres
+dépôts et consomment `french-typo` depuis PyPI.
 
 ---
 

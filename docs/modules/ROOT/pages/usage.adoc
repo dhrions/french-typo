@@ -37,14 +37,14 @@ Les fichiers sont modifiés *in place*. L'option `--nbsp` active les espaces ins
 
 === Anki
 
-Le dépôt contient une intégration Anki historique (`format_anki_notes/`), qui utilise le moteur
-`french_typo.core` (via `french_typo.adapters.anki.formatter.format_anki_html`) pour formater les champs des notes :
+L'adaptateur Anki (`french_typo.adapters.anki.formatter.format_anki_html`) applique la typographie
+au HTML des champs de notes :
 
-* formatage d'une note individuelle depuis l'éditeur ;
-* formatage par lot depuis le navigateur ;
-* gestion des cloze (`{{c1::...}}`) et du HTML.
+* gestion des cloze (`{{c1::...}}`) et du HTML ;
+* espaces insécables adaptés au rendu Anki.
 
-⚠️ Cette partie dépend de l'API Anki (`aqt`) et **n'est pas incluse dans le paquet PyPI** (exclue du build via `exclude` dans `pyproject.toml`).
+L'add-on Anki qui consomme cet adaptateur vit dans un dépôt séparé :
+https://github.com/dhrions/anki-french-typo[anki-french-typo]. Le moteur ne dépend pas d'`aqt`.
 
 === AsciiDoc
 
