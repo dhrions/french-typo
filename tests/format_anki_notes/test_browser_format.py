@@ -1,73 +1,83 @@
-# import pytest
-# from unittest.mock import MagicMock, patch
-# from aqt.qt import QMessageBox
-# from format_anki_notes.browser.format import format_selected_notes_in_browser
+from format_anki_notes.browser.format import format_selected_notes_in_browser
 
-# @patch('aqt.utils.showInfo')
-# @patch('format_anki_notes.browser.format.get_logger')
-# @patch('aqt.mw')
-# def test_format_selected_notes_in_browser_no_selection(mock_mw, mock_get_logger, mock_showInfo):
-#     # Mock du logger
-#     mock_logger = MagicMock()
-#     mock_get_logger.return_value = mock_logger
 
-#     # Mock du browser
-#     mock_browser = MagicMock()
-#     mock_browser.selectedNotes.return_value = []
+def test_format_selected_notes_no_selection_method(mocker):
+    mock_logger = mocker.MagicMock()
+    mocker.patch("format_anki_notes.browser.format.get_logger", return_value=mock_logger)
+    mock_show_info = mocker.patch("format_anki_notes.browser.format.showInfo")
 
-#     # Exécution
-#     format_selected_notes_in_browser(mock_browser)
+    mock_browser = mocker.MagicMock(spec=[])
 
-#     # Vérifications
-#     mock_logger.warning.assert_called_with("browser.selectedNotes non disponible.")
-#     mock_showInfo.assert_called_with("Veuillez sélectionner des notes dans le navigateur.")
+    format_selected_notes_in_browser(mock_browser)
 
-# @patch('aqt.qt.QMessageBox.question')
-# @patch('aqt.utils.showInfo')
-# @patch('format_anki_notes.browser.format.get_logger')
-# @patch('aqt.mw')
-# def test_format_selected_notes_in_browser_user_cancel(mock_mw, mock_get_logger, mock_showInfo, mock_question):
-#     # Mock du logger
-#     mock_logger = MagicMock()
-#     mock_get_logger.return_value = mock_logger
+    mock_logger.warning.assert_called_once_with("browser.selectedNotes non disponible.")
+    mock_show_info.assert_called_once_with("Veuillez sélectionner des notes dans le navigateur.")
 
-#     # Mock de QMessageBox.question pour retourner "No"
-#     mock_question.return_value = QMessageBox.StandardButton.No
 
-#     # Mock du browser
-#     mock_browser = MagicMock()
-#     mock_browser.selectedNotes.return_value = [123]
+def test_format_selected_notes_empty_selection(mocker):
+    mocker.patch("format_anki_notes.browser.format.get_logger", return_value=mocker.MagicMock())
+    mock_show_info = mocker.patch("format_anki_notes.browser.format.showInfo")
 
-#     # Exécution
-#     format_selected_notes_in_browser(mock_browser)
+    mock_browser = mocker.MagicMock()
+    mock_browser.selectedNotes.return_value = []
 
-#     # Vérifications
-#     mock_logger.info.assert_called_with("Formatage annulé par l'utilisateur.")
+    format_selected_notes_in_browser(mock_browser)
 
-# @patch('aqt.qt.QMessageBox.question')
-# @patch('aqt.utils.showInfo')
-# @patch('format_anki_notes.browser.format.get_logger')
-# @patch('aqt.mw')
-# def test_format_selected_notes_in_browser_note_error(mock_mw, mock_get_logger, mock_showInfo, mock_question):
-#     # Mock du logger
-#     mock_logger = MagicMock()
-#     mock_get_logger.return_value = mock_logger
+    mock_show_info.assert_called_once_with("Aucune note sélectionnée.")
 
-#     # Mock de mw.col
-#     mock_col = MagicMock()
-#     mock_mw.col = mock_col
-#     mock_col.get_note.side_effect = Exception("Note introuvable")
 
-#     # Mock de QMessageBox.question pour retourner "Yes"
-#     mock_question.return_value = QMessageBox.StandardButton.Yes
+def test_format_selected_notes_user_cancels(mocker):
+    mock_logger = mocker.MagicMock()
+    mocker.patch("format_anki_notes.browser.format.get_logger", return_value=mock_logger)
 
-#     # Mock du browser
-#     mock_browser = MagicMock()
-#     mock_browser.selectedNotes.return_value = [123]
+    from format_anki_notes.browser.format import QMessageBox
 
-#     # Exécution
-#     format_selected_notes_in_browser(mock_browser)
+    mocker.patch.object(QMessageBox, "question", return_value=QMessageBox.StandardButton.No)
 
-#     # Vérifications
-#     mock_logger.error.assert_called_with("Erreur pour la note 123 : Note introuvable", exc_info=True)
-#     mock_showInfo.assert_called_with("Erreur inattendue : Note introuvable")
+    mock_browser = mocker.MagicMock()
+    mock_browser.selectedNotes.return_value = [123]
+
+    format_selected_notes_in_browser(mock_browser)
+
+    mock_logger.info.assert_any_call("Formatage annulé par l'utilisateur.")
+
+
+def test_format_selected_notes_success(mocker):
+    mocker.patch("format_anki_notes.browser.format.get_logger", return_value=mocker.MagicMock())
+    mock_show_info = mocker.patch("format_anki_notes.browser.format.showInfo")
+    mock_mw = mocker.patch("format_anki_notes.browser.format.mw")
+    mocker.patch("format_anki_notes.browser.format.format_note", return_value=True)
+
+    from format_anki_notes.browser.format import QMessageBox
+
+    mocker.patch.object(QMessageBox, "question", return_value=QMessageBox.StandardButton.Yes)
+
+    mock_browser = mocker.MagicMock()
+    mock_browser.selectedNotes.return_value = [123, 456]
+
+    format_selected_notes_in_browser(mock_browser)
+
+    assert mock_mw.col.update_note.call_count == 2
+    mock_show_info.assert_called_once_with("2 notes formatées avec succès.")
+
+
+def test_format_selected_notes_note_error(mocker):
+    mock_logger = mocker.MagicMock()
+    mocker.patch("format_anki_notes.browser.format.get_logger", return_value=mock_logger)
+    mocker.patch("format_anki_notes.browser.format.showInfo")
+    mock_mw = mocker.patch("format_anki_notes.browser.format.mw")
+    mock_mw.col.get_note.side_effect = Exception("Note introuvable")
+
+    from format_anki_notes.browser.format import QMessageBox
+
+    mocker.patch.object(QMessageBox, "question", return_value=QMessageBox.StandardButton.Yes)
+
+    mock_browser = mocker.MagicMock()
+    mock_browser.selectedNotes.return_value = [123]
+
+    format_selected_notes_in_browser(mock_browser)
+
+    mock_logger.error.assert_called_once_with(
+        "Erreur lors du formatage de la note 123 : Note introuvable",
+        exc_info=True,
+    )

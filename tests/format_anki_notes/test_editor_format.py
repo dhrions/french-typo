@@ -1,23 +1,44 @@
-# # tests/test_editor_format.py
-# from unittest.mock import MagicMock, patch
-# from format_anki_notes.editor.format import format_current_note
-# from aqt.utils import showInfo
-# from format_anki_notes.logger import get_logger
+from format_anki_notes.editor.format import format_current_note
 
-# def test_format_current_note_no_fields(mocker):
-#     mock_editor = MagicMock()
-#     mock_editor.note = MagicMock()
-#     mock_editor.note.keys.return_value = []
-#     mocker.patch('aqt.utils.showInfo')
-#     format_current_note(mock_editor)
-#     assert 'Aucune modification nécessaire' in str(showInfo.call_args[0][0])
 
-# def test_format_current_note_update_error(mocker):
-#     mock_editor = MagicMock()
-#     mock_editor.note = MagicMock()
-#     mock_editor.note.keys.return_value = ['Front']
-#     mock_editor.note.__getitem__.return_value = 'Test 1er'
-#     mocker.patch('aqt.mw.col.update_note', side_effect=Exception("Erreur de mise à jour"))
-#     mocker.patch('aqt.utils.showInfo')
-#     format_current_note(mock_editor)
-#     assert 'Erreur lors du formatage' in str(showInfo.call_args[0][0])
+def test_format_current_note_no_modification(mocker):
+    mock_editor = mocker.MagicMock()
+    mocker.patch("format_anki_notes.editor.format.format_note", return_value=False)
+    mock_show_info = mocker.patch("format_anki_notes.editor.format.showInfo")
+
+    format_current_note(mock_editor)
+
+    mock_show_info.assert_called_once_with("Aucune modification nécessaire.")
+    mock_editor.loadNote.assert_not_called()
+
+
+def test_format_current_note_modified(mocker):
+    mock_editor = mocker.MagicMock()
+    mocker.patch("format_anki_notes.editor.format.format_note", return_value=True)
+    mock_mw = mocker.patch("format_anki_notes.editor.format.mw")
+    mock_show_info = mocker.patch("format_anki_notes.editor.format.showInfo")
+
+    format_current_note(mock_editor)
+
+    mock_mw.col.update_note.assert_called_once_with(mock_editor.note)
+    mock_editor.loadNote.assert_called_once()
+    mock_show_info.assert_called_once_with("Note formatée avec succès.")
+
+
+def test_format_current_note_error(mocker):
+    mock_editor = mocker.MagicMock()
+    mocker.patch(
+        "format_anki_notes.editor.format.format_note",
+        side_effect=Exception("Erreur de mise à jour"),
+    )
+    mock_logger = mocker.MagicMock()
+    mocker.patch("format_anki_notes.editor.format.get_logger", return_value=mock_logger)
+    mock_show_info = mocker.patch("format_anki_notes.editor.format.showInfo")
+
+    format_current_note(mock_editor)
+
+    mock_logger.error.assert_called_once_with(
+        "Erreur lors du formatage de la note : Erreur de mise à jour",
+        exc_info=True,
+    )
+    mock_show_info.assert_called_once_with("Erreur lors du formatage : Erreur de mise à jour")
