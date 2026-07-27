@@ -9,13 +9,9 @@ BULLET_START = re.compile(r'^\*\s+')
 INTRO_LINE = re.compile(r'.+:\s*$')
 
 
-def format_asciidoc_file(
-    path: Path,
-    *,
-    add_nbsp: bool = False,
-) -> None:
+def _format_lines(lines: list, *, add_nbsp: bool) -> list:
     """
-    Formate un fichier AsciiDoc en appliquant :
+    Applique aux lignes d'un document AsciiDoc :
     - les règles typographiques générales (core)
     - les règles spécifiques AsciiDoc :
       - ignore les blocs littéraux (----)
@@ -25,19 +21,8 @@ def format_asciidoc_file(
         * '.' pour le dernier item
       - insère une ligne vide après une phrase introductive
         se terminant par ':' avant une liste
-
-    Préserve STRICTEMENT :
-    - les lignes vides
-    - la présence ou non du newline final
     """
-    original_text = path.read_text(encoding="utf-8")
-
-    # 🔒 Conserver l'information "newline final"
-    has_trailing_newline = original_text.endswith("\n")
-
-    lines = original_text.split("\n")
     result = []
-
     in_literal_block = False
 
     for i, line in enumerate(lines):
@@ -85,6 +70,26 @@ def format_asciidoc_file(
             )
 
         result.append(formatted)
+
+    return result
+
+
+def format_asciidoc_file(
+    path: Path,
+    *,
+    add_nbsp: bool = False,
+) -> None:
+    """
+    Formate un fichier AsciiDoc en place (cf. _format_lines pour les règles
+    appliquées). Préserve STRICTEMENT les lignes vides et la présence ou non
+    du newline final.
+    """
+    original_text = path.read_text(encoding="utf-8")
+
+    # 🔒 Conserver l'information "newline final"
+    has_trailing_newline = original_text.endswith("\n")
+
+    result = _format_lines(original_text.split("\n"), add_nbsp=add_nbsp)
 
     output = "\n".join(result)
 

@@ -3,8 +3,7 @@ from aqt import mw
 from aqt.utils import showInfo
 from aqt.editor import Editor
 
-from french_typo.adapters.anki.formatter import format_anki_html
-
+from ..format_note import format_note
 from ..logger import get_logger
 
 
@@ -14,15 +13,7 @@ def format_current_note(editor: Editor) -> None:
 
     try:
         note = editor.note
-        modified = False
-
-        for field_name in note.keys():
-            original = note[field_name]
-            formatted = format_anki_html(original)
-
-            if formatted != original:
-                note[field_name] = formatted
-                modified = True
+        modified = format_note(note)
 
         if modified:
             mw.col.update_note(note)

@@ -1,4 +1,3 @@
-from .profiles import TypoProfile
 from .rules import (
     remove_all_nbsp,
     remove_useless_spaces,

@@ -1,5 +1,10 @@
 import re
 
+UNITS = {
+    'km': ['KM', 'Km', 'kms', 'KMS'],
+    'kg': ['KG', 'Kg', 'kgs', 'KGS'],
+}
+
 def normalize_unit(text, unit_name, variants):
     """
     Normalise une unité spécifique dans le texte.
@@ -14,13 +19,11 @@ def normalize_unit(text, unit_name, variants):
     pattern = r'\b(' + '|'.join(variants) + r')\b'
     return re.sub(pattern, unit_name, text, flags=re.IGNORECASE)
 
-def normalize_km(text):
-    """Normalise les variantes de 'km' en minuscules."""
-    return normalize_unit(text, 'km', ['KM', 'Km', 'kms', 'KMS'])
-
-def normalize_kg(text):
-    """Normalise les variantes de 'kg' en minuscules."""
-    return normalize_unit(text, 'kg', ['KG', 'Kg', 'kgs', 'KGS'])
+def normalize_simple_units(text):
+    """Normalise les variantes de chaque unité de UNITS en minuscules."""
+    for unit_name, variants in UNITS.items():
+        text = normalize_unit(text, unit_name, variants)
+    return text
 
 def normalize_composite_units(text):
     """Normalise les unités composées (ex: km/h, kg/m³)."""
@@ -34,6 +37,5 @@ def normalize_composite_units(text):
 
 def normalize_units(text):
     text = normalize_composite_units(text)
-    text = normalize_km(text)
-    text = normalize_kg(text)
+    text = normalize_simple_units(text)
     return text

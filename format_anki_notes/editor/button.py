@@ -1,5 +1,4 @@
 # format_anki_notes/editor/button.py
-from aqt import mw
 from aqt.editor import Editor
 from aqt.utils import showInfo
 from ..logger import get_logger
