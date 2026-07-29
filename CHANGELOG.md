@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v1.2.2 (2026-07-29)
+
+### 🐛
+
+- 🐛 fix(ci): aligne docs.yml sur le canonique et fiabilise le déploiement
+  ([`59da5d9`](https://github.com/dhrions/french-typo/commit/59da5d93cf51139e6a81b38279014a2831125cc9))
+
+Trois suppositions du workflow sont remplacées par des vérifications :
+
+- le dossier de build portait le nom du dépôt, alors qu'il porte celui du composant Antora — il est
+  désormais lu dans docs/antora.yml ; - le `rm -rf` précédait la copie : un build absent ou mal
+  nommé vidait la doc en ligne puis échouait. Un garde-fou vérifie avant de détruire ; - la page
+  d'accueil redirigeait vers un « main/ » codé en dur, lien mort sur tout dépôt dont la branche
+  n'est pas main. La redirection n'est posée que si Antora n'a pas produit d'index à la racine, et
+  vers la version réellement construite.
+
+Le fichier est maintenant identique dans tous les dépôts du parc, à la variable REPO près.
+
+Norme : repos-meta, docs-repos/.../archetype-workflow-docs.adoc
+
+
 ## v1.2.1 (2026-07-27)
 
 ### 🐛
