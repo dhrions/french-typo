@@ -8,6 +8,6 @@ comme un *namespace package* (sans emplacement de fichier), ce qui rendait
 
 from french_typo.core.formatter import format_text
 
-__version__ = "1.2.3"
+__version__ = "1.3.0"
 
 __all__ = ["format_text", "__version__"]

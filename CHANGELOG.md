@@ -1,6 +1,24 @@
 # CHANGELOG
 
 
+## v1.3.0 (2026-08-11)
+
+### Other
+
+- 📝 docs: documente --nbsp et le comportement réel de l'adaptateur AsciiDoc
+  ([`0fc6bad`](https://github.com/dhrions/french-typo/commit/0fc6bad1d144d001774ec7bbf99bf786ef979d3d))
+
+La CLI n'expliquait pas le flag --nbsp. La section AsciiDoc ne mentionnait ni la protection des
+  marqueurs structurels (titres, attributs, chemins relatifs, URL) ni le fait que la sortie est le
+  vrai caractère U+00A0 et non l'entité HTML &nbsp; (réservée à l'adaptateur Anki) — cf. commit
+  1d1cffc.
+
+### ✨
+
+- ✨ feat(icon): ajoute l'icône french-typo sous program-icon v13
+  ([`61b17bb`](https://github.com/dhrions/french-typo/commit/61b17bbe50a8f5a2cb95d0828b29cd47a28e0146))
+
+
 ## v1.2.3 (2026-08-11)
 
 ### 🐛
