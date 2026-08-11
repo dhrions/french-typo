@@ -98,6 +98,14 @@ Ou récursivement sur un dossier :
 french-typo docs/
 ----
 
+Par défaut, seules les règles typographiques hors espaces insécables sont appliquées
+(unités, ordinaux, espaces superflues…). Pour ajouter les espaces insécables :
+
+[source,bash]
+----
+french-typo --nbsp mon_fichier.adoc
+----
+
 Les fichiers sont modifiés *in place*.
 
 ---
@@ -123,7 +131,13 @@ L’adaptateur AsciiDoc permet de corriger automatiquement :
 
 * 📄 les paragraphes standards ;
 * 🚫 en ignorant les blocs littéraux (`----`) ;
-* 🚫 en ignorant les commentaires (`//`).
+* 🚫 en ignorant les commentaires (`//`) ;
+* 🔤 en ignorant les marqueurs structurels (titres `= …`, attributs `:clé: valeur`,
+  chemins relatifs `./…`) et les URL, jamais touchés par les règles typographiques ;
+* 🈳 en écrivant le vrai caractère insécable Unicode (`U+00A0`), pas l’entité HTML
+  `&nbsp;` — celle-ci reste réservée à l’adaptateur Anki, pensé pour du HTML. Un fichier
+  déjà formaté par une version antérieure de l’outil (avec l’entité) est relu et
+  reconnu correctement.
 
 ---
 
