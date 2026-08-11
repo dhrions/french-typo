@@ -13,8 +13,11 @@ def remove_useless_spaces(text: str) -> str:
     # 0. Normalise tous les &nbsp; en espaces simples
     text = text.replace("&nbsp;", " ")
 
-    # 1. Supprime les espaces avant les points
-    text = re.sub(r"[ \t]+\.", ".", text)
+    # 1. Supprime les espaces avant les points de ponctuation. Exclut le point
+    # suivi d'un '/' : ce n'est alors pas une fin de phrase mais un chemin
+    # relatif (ex: ':imagesdir: ./images'), dont l'espace précédente doit
+    # être préservée.
+    text = re.sub(r"[ \t]+\.(?!/)", ".", text)
 
     # 2. Réduit les séquences d'espaces/tabs internes
     text = re.sub(r"[ \t]{2,}", " ", text)

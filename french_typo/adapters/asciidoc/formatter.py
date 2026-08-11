@@ -67,6 +67,7 @@ def _format_lines(lines: list, *, add_nbsp: bool) -> list:
             formatted = punctuate_bullet_line(
                 formatted,
                 is_last=is_last,
+                add_nbsp=add_nbsp,
             )
 
         result.append(formatted)
@@ -86,12 +87,25 @@ def format_asciidoc_file(
     """
     original_text = path.read_text(encoding="utf-8")
 
+    # 🔤 Ramène toute espace insécable déjà présente en clair (U+00A0, écrite
+    # par un run précédent) à la représentation textuelle '&nbsp;' utilisée en
+    # interne par le moteur (remove_all_nbsp, lookarounds (?!&nbsp;)...) —
+    # sans ça, un second passage sur un fichier déjà formaté ne la reconnaît
+    # pas comme telle et perd l'idempotence.
+    original_text = original_text.replace(" ", "&nbsp;")
+
     # 🔒 Conserver l'information "newline final"
     has_trailing_newline = original_text.endswith("\n")
 
     result = _format_lines(original_text.split("\n"), add_nbsp=add_nbsp)
 
     output = "\n".join(result)
+
+    # 🔤 AsciiDoc n'a pas besoin de l'entité HTML '&nbsp;' (pensée pour du
+    # HTML, cf. l'adaptateur Anki) : le caractère Unicode insécable (U+00A0)
+    # est un octet UTF-8 valide, rendu correctement par Asciidoctor tel quel,
+    # et surtout lisible directement dans le texte source.
+    output = output.replace("&nbsp;", " ")
 
     # 🔒 Restaurer exactement le newline final
     if has_trailing_newline and not output.endswith("\n"):

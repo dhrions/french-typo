@@ -45,9 +45,26 @@ def add_nbsp(text):
     text = text.replace('___QUESTION_EXCLAMATION___', '?!')
     text = text.replace('___QUESTION_ESPACE_EXCLAMATION___', '? !')
 
-    # Espace insécable après ± et =
+    # Espace insécable après ± et = (signe mathématique isolé, ex: « x = 3 »).
+    # Exclut le cas où le '=' est un marqueur de titre AsciiDoc (« = Titre »,
+    # « == Sous-titre »...) : dans ce cas, tout ce qui précède le signe sur la
+    # ligne courante n'est que d'autres '='. Un lookbehind à largeur fixe ne
+    # suffit pas ici (1 à 6 niveaux de titre) ; on passe donc par un callback
+    # qui inspecte le préfixe de la ligne au moment du match.
+    def _replace_math_sign(match, *, sign, source):
+        prefix = source[:match.start()]
+        line_start = prefix.rfind('\n') + 1
+        before_on_line = prefix[line_start:]
+        if sign == '=' and re.fullmatch(r'=*', before_on_line):
+            return match.group(0)
+        return f'{sign}&nbsp;'
+
     for sign in ['±', '=']:
-        text = re.sub(rf'{re.escape(sign)}\s+', f'{sign}&nbsp;', text)
+        pattern = re.compile(rf'{re.escape(sign)}\s+')
+        text = pattern.sub(
+            lambda m, sign=sign, source=text: _replace_math_sign(m, sign=sign, source=source),
+            text,
+        )
 
     # Espace insécable pour les mots clés suivis d'un chiffre
     keywords = r'article|coef\.|partie'
@@ -63,9 +80,14 @@ def add_nbsp(text):
     units = r'cm|km|m|g|kg|L|h|min|s|°C'
     text = re.sub(rf'(\d)\s*({units})\b', r'\1&nbsp;\2', text, flags=re.IGNORECASE)
 
-    # Espace insécable entre un chiffre et un symbole (ex: 10 %, 50 €, 10 $)
-    symbols = r'%|€|\$'
-    text = re.sub(rf'(\d)\s*({symbols})', r'\1&nbsp;\2', text)
+    # Espace insécable entre un chiffre et un symbole (ex: 10 %, 50 €, 10 $).
+    # Le '%' est traité à part des deux autres : un '%' suivi de deux
+    # caractères hexadécimaux (%5D, %C3...) est la signature d'un octet
+    # d'URL-encoding, jamais un pourcentage français — quel que soit ce qui
+    # précède le chiffre (un %XX isolé comme dans un paramètre de requête,
+    # ou un %XX%YY chaîné comme dans un caractère accentué encodé).
+    text = re.sub(r'(\d)\s*(%)(?![0-9A-Fa-f]{2})', r'\1&nbsp;\2', text)
+    text = re.sub(r'(\d)\s*(€|\$)', r'\1&nbsp;\2', text)
 
     text = add_ordinal_suffix_nbsp(text)
 
