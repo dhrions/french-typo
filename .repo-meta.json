@@ -7,5 +7,6 @@
   "links": {
     "homepage": "https://github.com/dhrions/french-typo",
     "repository": "https://gitea.dhrions.fr/dhrions/french-typo"
-  }
+  },
+  "image": "french-typo.png"
 }
