@@ -1,6 +1,35 @@
 # CHANGELOG
 
 
+## v1.2.3 (2026-08-11)
+
+### 🐛
+
+- 🐛 fix(asciidoc): corrige 4 corruptions et sort un vrai U+00A0
+  ([`1d1cffc`](https://github.com/dhrions/french-typo/commit/1d1cffcdf8eb636eb76ba6aec4f3d58cae2d9177))
+
+Trouvés en conditions réelles sur le corpus de general-knowledge :
+
+- core/rules/nbsps.py : la règle '=' matchait aussi le marqueur de titre AsciiDoc (= Titre, ==
+  Sous-titre...), pas seulement le signe mathématique. Exclut désormais le cas où tout ce qui
+  précède le '=' sur la ligne n'est que d'autres '='. - core/rules/useless_spaces.py : la
+  suppression d'espace avant un point cassait les chemins relatifs (:imagesdir: ./images ->
+  :imagesdir:./images). Exclut le point suivi de '/'. - core/rules/nbsps.py : la règle '%' cassait
+  les URL-encodings (%C3%A9nie -> %C3&nbsp;%A9nie). Exclut tout '%' suivi de deux caractères
+  hexadécimaux, quel que soit ce qui précède le chiffre. - adapters/asciidoc/rules.py, formatter.py
+  : la ponctuation de fin de liste ne reconnaissait pas '&nbsp;' comme une espace lors du nettoyage,
+  produisant un doublon ('mot&nbsp; ;'). Le add_nbsp est maintenant propagé pour ponctuer avec la
+  bonne espace directement.
+
+Change aussi la sortie de l'adaptateur AsciiDoc : écrit le vrai caractère U+00A0 plutôt que l'entité
+  '&nbsp;' (pensée pour du HTML, toujours utilisée telle quelle par l'adaptateur Anki). Lit aussi
+  bien l'une que l'autre en entrée pour rester idempotent sur un fichier déjà formaté par une
+  version antérieure de l'outil.
+
+56 tests existants toujours au vert ; testé en conditions réelles sur les 35 fichiers .adoc de
+  content/modules/ de general-knowledge (build Antora sans warning après coup).
+
+
 ## v1.2.2 (2026-07-29)
 
 ### 🐛
