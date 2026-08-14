@@ -9,6 +9,8 @@ Version 1.0.0, 27/07/2026
 :keywords: typographie française, espaces insécables, Python, CLI, Anki, AsciiDoc
 :icons: font
 
+image::french-typo.png[French Typo,width=300,align=center]
+
 ifdef::env-github[]
 image:https://img.shields.io/badge/version-1.0.0-blue[]
 image:https://img.shields.io/badge/license-MIT-green[]

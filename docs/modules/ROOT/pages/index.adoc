@@ -1,6 +1,8 @@
 = French Typo
 :page-description: Moteur de correction typographique française (core Python, CLI, intégrations Anki/AsciiDoc).
 
+image::french-typo.png[French Typo,width=300,align=center]
+
 == ⚡ TL;DR
 
 * 📝 Applique les règles typographiques françaises usuelles (espaces insécables, unités, ordinaux) à du texte, un fichier AsciiDoc ou une note Anki
