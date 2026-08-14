@@ -1,6 +1,25 @@
 # CHANGELOG
 
 
+## v1.3.1 (2026-08-14)
+
+### Other
+
+- 🎨 chore(icon): régénère l'icône french-typo avec le T et le drapeau français
+  ([`8216843`](https://github.com/dhrions/french-typo/commit/82168432fee4489dfb201a6269996d133ec7e4bc))
+
+Reprend le T violet de anki-french-typo.png en satellite, ajoute la pastille drapeau français et un
+  texte avec guillemets « » pour mieux évoquer la typographie française.
+
+### 🐛
+
+- 🐛 fix(docs): affiche l'illustration du dépôt dans README et index Antora
+  ([`5ea84a2`](https://github.com/dhrions/french-typo/commit/5ea84a21f9f62ababdf7f60c57c4a2b1bce809bb))
+
+Le symlink docs/modules/ROOT/images/ et la ligne image:: manquaient depuis la génération de l'icône,
+  donc rien n'était jamais déployé.
+
+
 ## v1.3.0 (2026-08-11)
 
 ### Other
