@@ -34,7 +34,8 @@ link:https://les-unpertinents.fr/Manuscrits/Lexique%20des%20r%C3%A8gles%20typogr
 * 🔠 normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.),
 * 🔢 formatage des ordinaux (`1er` → `1<sup>er</sup>`, `n°4` → `n<sup>o</sup>4`),
 * ✂️ suppression des espaces multiples,
-* 🔤 gestion des guillemets français (« »).
+* 🔤 gestion des guillemets français (« »),
+* 👤 espaces insécables après les abréviations usuelles (`M. Dupont`, `Dr Martin`, `St Étienne`).
 
 Le projet est structuré autour :
 * 🧩 d’un **core Python pur**, réutilisable partout ;

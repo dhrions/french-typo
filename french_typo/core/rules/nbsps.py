@@ -21,6 +21,27 @@ def add_ordinal_suffix_nbsp(text):
     return text
 
 
+# Abréviations usuelles devant rester solidaires du mot qui les suit
+# (titres de civilité, Saint/Sainte, raisons sociales). Les formes avec point
+# final (`M.`, `MM.`) et sans point (`Mme`, `Dr`...) suivent l'usage français :
+# le point ne subsiste que si l'abréviation ne se termine pas par la dernière
+# lettre du mot complet.
+_ABBREVIATIONS = r'M{1,2}\.|Mmes?|Mlles?|Dr|Pr|Ste?|Cie|Éts'
+_ABBREVIATION_PATTERN = re.compile(rf'\b({_ABBREVIATIONS})\s+(?=\w)')
+
+
+def add_abbreviation_nbsp(text):
+    """
+    Ajoute un espace insécable entre une abréviation usuelle et le mot suivant
+    (« M. Dupont », « Dr Martin », « St Étienne »), pour éviter que
+    l'abréviation ne se retrouve seule en fin de ligne.
+
+    Idempotent : une abréviation déjà suivie de `&nbsp;` n'est plus suivie d'une
+    espace, donc n'est pas rematchée.
+    """
+    return _ABBREVIATION_PATTERN.sub(r'\1&nbsp;', text)
+
+
 def add_nbsp(text):
     """
     Ajoute des espaces insécables selon les règles typographiques françaises.
@@ -90,6 +111,7 @@ def add_nbsp(text):
     text = re.sub(r'(\d)\s*(€|\$)', r'\1&nbsp;\2', text)
 
     text = add_ordinal_suffix_nbsp(text)
+    text = add_abbreviation_nbsp(text)
 
     return text
 

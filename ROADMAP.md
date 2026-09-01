@@ -23,7 +23,7 @@ Feuille de route de **French Typo**
 - [x] **Ponctuations doubles et unités** : espaces insécables, normalisation des unités, ordinaux en exposant
 - [x] **Guillemets français** : espaces insécables autour de « et »
 - [ ] **Guillemets simples** : prise en charge de ‹ et ›
-- [ ] **Abréviations courantes** : traitement des formes usuelles (M., Mme, Dr, etc.)
+- [x] **Abréviations courantes** : traitement des formes usuelles (M., MM., Mme(s), Mlle(s), Dr, Pr, St/Ste, Cie, Éts)
 
 ### Contrôle par l'appelant
 - [ ] **Sélection des règles** : permettre d'activer ou désactiver individuellement les règles appliquées, condition préalable à toute interface de préférences côté consommateur
