@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v1.5.0 (2026-09-01)
+
+### ✨
+
+- ✨ feat(nbsps): ajoute les guillemets simples ‹ › dans le core
+  ([`1533104`](https://github.com/dhrions/french-typo/commit/15331041e251f9e126f9d5a71996422ca45205dc))
+
+Même traitement que « » (espace insécable, idempotence). Rapatrie ici l'implémentation faite par
+  erreur dans anki-french-typo (rules.py), qui n'avait rien de spécifique à Anki.
+
+
 ## v1.4.0 (2026-09-01)
 
 ### Other
