@@ -26,7 +26,7 @@ Feuille de route de **French Typo**
 - [x] **Abréviations courantes** : traitement des formes usuelles (M., MM., Mme(s), Mlle(s), Dr, Pr, St/Ste, Cie, Éts)
 
 ### Contrôle par l'appelant
-- [ ] **Sélection des règles** : permettre d'activer ou désactiver individuellement les règles appliquées, condition préalable à toute interface de préférences côté consommateur
+- [ ] **Sélection des règles** : permettre d'activer ou désactiver individuellement les règles appliquées, condition préalable à toute interface de préférences côté consommateur — `format_sup_numbers_enabled` fait (`format_text()`), `add_nbsp`/`normalize_units`/`remove_useless_spaces` encore inconditionnels (sauf `add_nbsp_enabled`, déjà optionnel)
 
 ---
 

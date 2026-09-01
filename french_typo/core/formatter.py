@@ -13,18 +13,24 @@ def format_text(
     text: str,
     *,
     add_nbsp_enabled: bool = False,
+    format_sup_numbers_enabled: bool = True,
 ) -> str:
     """
     Applique les règles typographiques françaises.
 
     Paramètres :
     - add_nbsp_enabled : ajoute les espaces insécables (&nbsp;)
+    - format_sup_numbers_enabled : formate les ordinaux et n° en exposant
+      (1er, 2e, n°...). Activé par défaut pour ne pas changer le comportement
+      des appelants existants ; un consommateur qui expose ce choix (ex. un
+      panneau de préférences) passe explicitement False pour le désactiver.
     """
 
     text = remove_all_nbsp(text)
     text = remove_useless_spaces(text)
     text = normalize_units(text)
-    text = format_sup_numbers(text)
+    if format_sup_numbers_enabled:
+        text = format_sup_numbers(text)
 
     if add_nbsp_enabled:
         text = add_nbsp(text)
