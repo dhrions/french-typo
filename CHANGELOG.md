@@ -1,6 +1,23 @@
 # CHANGELOG
 
 
+## v1.4.0 (2026-09-01)
+
+### Other
+
+- 🎨 chore(icon): retouche l'icône french-typo à partir d'anki-french-typo sans l'étoile
+  ([`cf4958f`](https://github.com/dhrions/french-typo/commit/cf4958f605efb848559baa40b73b5069990e2313))
+
+### ✨
+
+- ✨ feat(nbsps): ajoute l'espace insécable après les abréviations usuelles
+  ([`2b4ed0e`](https://github.com/dhrions/french-typo/commit/2b4ed0e6163695b0a3dbd2e5ec092ce9cfd32cfe))
+
+Traite M., MM., Mme(s), Mlle(s), Dr, Pr, St/Ste, Cie et Éts : le nbsp est inséré dès que
+  l'abréviation est suivie d'un mot, pour éviter qu'elle ne reste seule en fin de ligne. Règle
+  placée dans le core (typographie française générique, sans rien de spécifique à Anki ou AsciiDoc).
+
+
 ## v1.3.1 (2026-08-14)
 
 ### Other
