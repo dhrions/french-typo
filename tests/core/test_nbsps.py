@@ -79,3 +79,18 @@ def test_add_abbreviation_nbsp_sans_mot_suivant():
 
     assert add_abbreviation_nbsp("Adressé à M.") == "Adressé à M."
     assert add_abbreviation_nbsp("le Dr .") == "le Dr ."
+
+
+def test_add_nbsp_guillemets_simples():
+    assert add_nbsp("‹ citation ›") == "‹&nbsp;citation&nbsp;›"
+
+
+def test_add_nbsp_guillemets_simples_idempotent():
+    once = add_nbsp("‹ Bonjour ›")
+    assert add_nbsp(once) == once
+
+
+def test_add_nbsp_guillemets_imbriques():
+    text = "« il a dit ‹ oui › hier »"
+    expected = "«&nbsp;il a dit ‹&nbsp;oui&nbsp;› hier&nbsp;»"
+    assert add_nbsp(text) == expected

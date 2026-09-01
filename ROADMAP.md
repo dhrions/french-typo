@@ -22,7 +22,7 @@ Feuille de route de **French Typo**
 ### Couverture typographique française
 - [x] **Ponctuations doubles et unités** : espaces insécables, normalisation des unités, ordinaux en exposant
 - [x] **Guillemets français** : espaces insécables autour de « et »
-- [ ] **Guillemets simples** : prise en charge de ‹ et ›
+- [x] **Guillemets simples** : prise en charge de ‹ et ›
 - [x] **Abréviations courantes** : traitement des formes usuelles (M., MM., Mme(s), Mlle(s), Dr, Pr, St/Ste, Cie, Éts)
 
 ### Contrôle par l'appelant

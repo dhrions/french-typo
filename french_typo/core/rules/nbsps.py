@@ -51,6 +51,9 @@ def add_nbsp(text):
     text = re.sub(r'«(?!&nbsp;)\s*', '«&nbsp;', text)
     # Espace insécable avant les guillemets fermants (idempotent)
     text = re.sub(r'(?<!&nbsp;)\s*»', '&nbsp;»', text)
+    # Idem pour les guillemets simples ‹ › (citations imbriquées)
+    text = re.sub(r'‹(?!&nbsp;)\s*', '‹&nbsp;', text)
+    text = re.sub(r'(?<!&nbsp;)\s*›', '&nbsp;›', text)
 
     # On traite d'abord les cas spéciaux "?!" et "? !" en les marquant temporairement
     text = text.replace('?!', '___QUESTION_EXCLAMATION___')
