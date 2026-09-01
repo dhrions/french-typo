@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v1.6.0 (2026-09-01)
+
+### ✨
+
+- ✨ feat(formatter): rend format_sup_numbers optionnel dans format_text()
+  ([`9cde8a9`](https://github.com/dhrions/french-typo/commit/9cde8a99b9573945821f6e2a77ae69ec5e27cafd))
+
+Ajoute format_sup_numbers_enabled (défaut True, comportement inchangé pour les appelants existants).
+  Nécessaire pour qu'un consommateur (panneau de préférences anki-french-typo) puisse réellement
+  désactiver le formatage des ordinaux/n° en exposant — jusqu'ici appliqué sans condition,
+  indépendamment de tout choix côté appelant.
+
+
 ## v1.5.0 (2026-09-01)
 
 ### ✨
