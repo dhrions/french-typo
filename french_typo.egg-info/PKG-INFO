@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: french-typo
-Version: 1.1.0
+Version: 1.5.0
 Summary: Moteur de correction typographique française
 Requires-Python: >=3.8
 Description-Content-Type: text/plain
@@ -22,6 +22,8 @@ Version 1.0.0, 27/07/2026
 :description: Moteur de correction typographique française (core Python, CLI, intégrations)
 :keywords: typographie française, espaces insécables, Python, CLI, Anki, AsciiDoc
 :icons: font
+
+image::french-typo.png[French Typo,width=300,align=center]
 
 ifdef::env-github[]
 image:https://img.shields.io/badge/version-1.0.0-blue[]
@@ -46,7 +48,8 @@ link:https://les-unpertinents.fr/Manuscrits/Lexique%20des%20r%C3%A8gles%20typogr
 * 🔠 normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.),
 * 🔢 formatage des ordinaux (`1er` → `1<sup>er</sup>`, `n°4` → `n<sup>o</sup>4`),
 * ✂️ suppression des espaces multiples,
-* 🔤 gestion des guillemets français (« »).
+* 🔤 gestion des guillemets français doubles et simples (« » et ‹ ›),
+* 👤 espaces insécables après les abréviations usuelles (`M. Dupont`, `Dr Martin`, `St Étienne`).
 
 Le projet est structuré autour :
 * 🧩 d’un **core Python pur**, réutilisable partout ;
@@ -112,6 +115,14 @@ Ou récursivement sur un dossier :
 french-typo docs/
 ----
 
+Par défaut, seules les règles typographiques hors espaces insécables sont appliquées
+(unités, ordinaux, espaces superflues…). Pour ajouter les espaces insécables :
+
+[source,bash]
+----
+french-typo --nbsp mon_fichier.adoc
+----
+
 Les fichiers sont modifiés *in place*.
 
 ---
@@ -137,7 +148,13 @@ L’adaptateur AsciiDoc permet de corriger automatiquement :
 
 * 📄 les paragraphes standards ;
 * 🚫 en ignorant les blocs littéraux (`----`) ;
-* 🚫 en ignorant les commentaires (`//`).
+* 🚫 en ignorant les commentaires (`//`) ;
+* 🔤 en ignorant les marqueurs structurels (titres `= …`, attributs `:clé: valeur`,
+  chemins relatifs `./…`) et les URL, jamais touchés par les règles typographiques ;
+* 🈳 en écrivant le vrai caractère insécable Unicode (`U+00A0`), pas l’entité HTML
+  `&nbsp;` — celle-ci reste réservée à l’adaptateur Anki, pensé pour du HTML. Un fichier
+  déjà formaté par une version antérieure de l’outil (avec l’entité) est relu et
+  reconnu correctement.
 
 ---
 
@@ -187,6 +204,13 @@ pytest
 * 🎯 API simple, explicite, testée ;
 * 🪶 aucune dépendance lourde dans le core ;
 * 🔮 extensible vers d’autres formats (Markdown, LaTeX, etc.).
+
+---
+
+== 🗺️ Feuille de route
+
+Les jalons du projet sont décrits dans link:ROADMAP.md[ROADMAP.md] ; le backlog technique
+détaillé vit dans link:TODO.md[TODO.md].
 
 ---
 

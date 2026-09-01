@@ -19,6 +19,7 @@ french_typo/adapters/asciidoc/rules.py
 french_typo/core/__init__.py
 french_typo/core/formatter.py
 french_typo/core/rules/__init__.py
+french_typo/core/rules/nbsp_cleanup.py
 french_typo/core/rules/nbsps.py
 french_typo/core/rules/numbers.py
 french_typo/core/rules/units.py
