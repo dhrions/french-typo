@@ -121,6 +121,7 @@ Le moteur expose un adaptateur Anki (`french_typo.adapters.anki`) qui applique l
 HTML des champs de notes :
 
 * 🔤 gestion des cloze (`{{c1::...}}`) et du HTML ;
+* 🚫 attributs des balises HTML (`src`, `href`, `style`…) jamais modifiés : ce ne sont pas du texte ;
 * 📝 espaces insécables adaptés au rendu Anki.
 
 L’add-on Anki qui consomme cet adaptateur vit dans un dépôt séparé :

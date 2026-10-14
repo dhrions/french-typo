@@ -1,3 +1,4 @@
+from .html_attributes import mask_attributes, restore_attributes
 from .rules import (
     remove_all_nbsp,
     remove_useless_spaces,
@@ -24,7 +25,12 @@ def format_text(
       (1er, 2e, n°...). Activé par défaut pour ne pas changer le comportement
       des appelants existants ; un consommateur qui expose ce choix (ex. un
       panneau de préférences) passe explicitement False pour le désactiver.
+
+    Les attributs des balises HTML (`src`, `href`, `style`…) ne sont jamais modifiés : ce ne
+    sont pas du texte (cf. `html_attributes`).
     """
+
+    text, attributes = mask_attributes(text)
 
     text = remove_all_nbsp(text)
     text = remove_useless_spaces(text)
@@ -37,4 +43,4 @@ def format_text(
         text = clean_nbsp_after_comma(text)
         text = clean_leading_nbsp(text)
 
-    return text
+    return restore_attributes(text, attributes)
