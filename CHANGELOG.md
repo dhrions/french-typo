@@ -1,6 +1,28 @@
 # CHANGELOG
 
 
+## v1.6.1 (2026-10-14)
+
+### Other
+
+- 🔧 chore: retire french_typo.egg-info/ du suivi git
+  ([`f8566d7`](https://github.com/dhrions/french-typo/commit/f8566d77634ba3d979780e26e9b763416b1e6b72))
+
+Artefact régénéré à chaque pip install -e (pip build editable) : sa présence en tracké faisait
+  dériver silencieusement des métadonnées (version 1.1.0 restée figée alors que pyproject.toml était
+  à 1.5.0) sans qu'aucun commit ne le mette à jour explicitement.
+
+### 🐛
+
+- 🐛 fix(formatter): never apply the typography rules inside HTML tag attributes
+  ([`766d22c`](https://github.com/dhrions/french-typo/commit/766d22c13cb71ac0ec68a28765a043e33bdc7391))
+
+The ordinal rule rewrote hexadecimal file names in src: « paste-…933d.jpg » became «
+  paste-…933<sup>d</sup>.jpg », an image lost. format_text now masks each attribute block behind a
+  private-use sentinel and restores it untouched; the tag name stays visible. 165 Anki notes were
+  found with damaged attributes on 2026-10-14 (src, style, href).
+
+
 ## v1.6.0 (2026-09-01)
 
 ### ✨
