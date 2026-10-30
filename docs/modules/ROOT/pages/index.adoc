@@ -5,12 +5,26 @@ image::french-typo.png[French Typo,width=300,align=center]
 
 == ⚡ TL;DR
 
-* 📝 Applique les règles typographiques françaises usuelles (espaces insécables, unités, ordinaux) à du texte, un fichier AsciiDoc ou une note Anki
-* 🎯 Quand : en bibliothèque Python dans un autre outil, en CLI sur des fichiers `.adoc`, ou comme add-on Anki
-* 🚀 `french-typo mon_fichier.adoc` — corrige un fichier AsciiDoc en place
+Applique les règles typographiques françaises usuelles (espaces insécables, unités, ordinaux,
+guillemets, abréviations) via un core Python pur, que reprennent une CLI pour les fichiers
+AsciiDoc et un adaptateur pour les notes Anki. La CLI réécrit les `.adoc` en place sans toucher
+aux blocs littéraux, commentaires, titres ni attributs, et n'ajoute les espaces insécables
+qu'avec `--nbsp`.
 
-**French Typo** est un moteur de correction typographique française écrit en Python. Il applique automatiquement les règles typographiques usuelles (conformes au
-link:https://les-unpertinents.fr/Manuscrits/Lexique%20des%20r%C3%A8gles%20typographiques%20en%20usage%20%C3%A0%20l%27Imprimerie%20nationale2.pdf[lexique de l'Imprimerie nationale]) :
+🎯 Quand : pour la seule typographie ; sur une doc AsciiDoc, `adocx` (dépôt `asciidoc-utils`)
+y ajoute ses règles éditoriales et la vérification des liens.
+
+[source,bash]
+----
+pip install french-typo
+# corriger en place un fichier ou un dossier AsciiDoc
+french-typo docs/
+----
+
+== 📐 Règles appliquées
+
+Règles typographiques françaises usuelles, conformes au
+link:https://les-unpertinents.fr/Manuscrits/Lexique%20des%20r%C3%A8gles%20typographiques%20en%20usage%20%C3%A0%20l%27Imprimerie%20nationale2.pdf[lexique de l'Imprimerie nationale] :
 
 * espaces insécables avant les ponctuations doubles (`: ; ? ! % €`),
 * normalisation des unités (`KM` → `km`, `KG` → `kg`, etc.),
@@ -18,8 +32,6 @@ link:https://les-unpertinents.fr/Manuscrits/Lexique%20des%20r%C3%A8gles%20typogr
 * suppression des espaces multiples,
 * gestion des guillemets français doubles et simples (« » et ‹ ›),
 * espaces insécables après les abréviations usuelles (`M. Dupont`, `Dr Martin`, `St Étienne`).
-
-Le projet est structuré autour d'un **core Python pur** réutilisable partout, d'une **CLI** pour le traitement de fichiers, et d'**adaptateurs** pour des environnements spécifiques (Anki, AsciiDoc).
 
 == ✨ Fonctionnalités principales
 
