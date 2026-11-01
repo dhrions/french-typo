@@ -19,6 +19,12 @@ def punctuate_bullet_line(
     if not BULLET_LINE.match(line):
         return line
 
+    # An item that already ends with a colon (it introduces a sub-list), a question or an
+    # exclamation mark keeps its punctuation: appending '.' or ';' gave 'cadre :.' and
+    # 'possibilité ?.' (notes-videos, 2026-11-01).
+    if re.search(r'[:?!…](?:[ \t]|&nbsp;)*$', line):
+        return line
+
     # Supprimer toute ponctuation finale existante. Cette fonction tourne
     # après add_nbsp() : une espace déjà normalisée en '&nbsp;' doit être
     # reconnue au même titre qu'une espace normale, sinon elle survit au

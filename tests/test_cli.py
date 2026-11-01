@@ -45,3 +45,13 @@ def test_fix_rejects_non_adoc_file(tmp_path):
     assert result.exit_code != 0
     assert "❌" in result.output
     assert "Chemin invalide" in result.output
+
+
+def test_no_list_punctuation_option(tmp_path):
+    adoc_file = tmp_path / "sample.adoc"
+    adoc_file.write_text("Intro :\n\n* item 1\n* item 2\n", encoding="utf-8")
+
+    result = CliRunner().invoke(fix, ["--no-list-punctuation", str(adoc_file)])
+
+    assert result.exit_code == 0
+    assert adoc_file.read_text(encoding="utf-8") == "Intro :\n\n* item 1\n* item 2\n"

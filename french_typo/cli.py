@@ -12,17 +12,22 @@ from french_typo.adapters.asciidoc.formatter import format_asciidoc_file
     is_flag=True,
     help="Ajoute des espaces insécables (&nbsp;). Désactivé par défaut pour AsciiDoc.",
 )
-def fix(path, nbsp):
+@click.option(
+    "--no-list-punctuation",
+    is_flag=True,
+    help="Ne touche pas à la ponctuation des fins d'items de liste (';' et '.').",
+)
+def fix(path, nbsp, no_list_punctuation):
     """
     Corrige la typographie française des fichiers AsciiDoc.
     """
     p = Path(path)
 
     if p.is_file() and p.suffix == ".adoc":
-        format_asciidoc_file(p, add_nbsp=nbsp)
+        format_asciidoc_file(p, add_nbsp=nbsp, punctuate_lists=not no_list_punctuation)
     elif p.is_dir():
         for file in p.rglob("*.adoc"):
-            format_asciidoc_file(file, add_nbsp=nbsp)
+            format_asciidoc_file(file, add_nbsp=nbsp, punctuate_lists=not no_list_punctuation)
     else:
         raise click.BadParameter("❌ Chemin invalide")
 

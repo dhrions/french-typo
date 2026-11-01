@@ -119,3 +119,20 @@ def test_intro_before_list_adds_blank_line_and_punctuates_first_item(tmp_path):
         "* une communication interne intense ;\n"
         "* une capacité d’ajustement rapide aux changements.\n"
     )
+
+def test_item_ending_with_colon_question_or_exclamation_keeps_its_punctuation():
+    # Gave 'cadre :.' and 'possibilité ?.' on notes-videos (2026-11-01).
+    assert punctuate_bullet_line("* Trois chercheurs :", is_last=True) == "* Trois chercheurs :"
+    assert punctuate_bullet_line("* Pourquoi ?", is_last=True) == "* Pourquoi ?"
+    assert punctuate_bullet_line("* Enfin !", is_last=False) == "* Enfin !"
+    assert punctuate_bullet_line("* Pourquoi&nbsp;?", is_last=True) == "* Pourquoi&nbsp;?"
+
+
+def test_list_punctuation_can_be_disabled(tmp_path):
+    content = "Intro :\n\n* item 1\n* item 2\n"
+    path = tmp_path / "test.adoc"
+    path.write_text(content, encoding="utf-8")
+
+    format_asciidoc_file(path, punctuate_lists=False)
+
+    assert path.read_text(encoding="utf-8") == content
