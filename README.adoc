@@ -114,6 +114,14 @@ Par défaut, seules les règles typographiques hors espaces insécables sont app
 french-typo --nbsp mon_fichier.adoc
 ----
 
+L'outil ponctue aussi les fins d'items de liste (`;` pour les intermédiaires, `.` pour le
+dernier). Pour ne pas y toucher :
+
+[source,bash]
+----
+french-typo --nbsp --no-list-punctuation mon_fichier.adoc
+----
+
 Les fichiers sont modifiés *in place*.
 
 ---
@@ -139,10 +147,16 @@ link:https://github.com/dhrions/anki-french-typo[anki-french-typo].
 L’adaptateur AsciiDoc permet de corriger automatiquement :
 
 * 📄 les paragraphes standards ;
-* 🚫 en ignorant les blocs littéraux (`----`) ;
+* 🚫 en ignorant les blocs littéraux, de code et de formule (`----`, `....`, `++++`) ;
 * 🚫 en ignorant les commentaires (`//`) ;
 * 🔤 en ignorant les marqueurs structurels (titres `= …`, attributs `:clé: valeur`,
   chemins relatifs `./…`) et les URL, jamais touchés par les règles typographiques ;
+* 🔒 sans jamais modifier ce qui n'est pas du texte : formules (`stem:[…]`, `latexmath:[…]`),
+  cible des macros (`link:`, `xref:`, `image:`…), URL, code inline et renvois `<<…>>`. Le
+  libellé entre crochets d'un lien reste corrigé ;
+* 🔢 en écrivant les ordinaux en exposant AsciiDoc (`1^er^`, `2^e^`, `n^o^`), pas en HTML ;
+* 📋 en ponctuant les fins d'items de liste, sauf avec `--no-list-punctuation` ; un item
+  qui se termine par `:`, `?`, `!` ou `…` garde sa ponctuation ;
 * 🈳 en écrivant le vrai caractère insécable Unicode (`U+00A0`), pas l’entité HTML
   `&nbsp;` — celle-ci reste réservée à l’adaptateur Anki, pensé pour du HTML. Un fichier
   déjà formaté par une version antérieure de l’outil (avec l’entité) est relu et
