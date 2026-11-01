@@ -1,6 +1,37 @@
 # CHANGELOG
 
 
+## v1.7.0 (2026-11-01)
+
+### Other
+
+- 📝 docs(asciidoc): document protected spans, AsciiDoc ordinals and --no-list-punctuation
+  ([`eceea23`](https://github.com/dhrions/french-typo/commit/eceea23ce89cae0506b86036c25462dd8bcbab24))
+
+- 📝 docs(todo): purge items checked more than 30 days ago
+  ([`b095ebb`](https://github.com/dhrions/french-typo/commit/b095ebbdfa09b87e24713ed41fc03644d526ea47))
+
+- 📝 docs: rewrite the TL;DR in the paragraph format
+  ([`90ea6b5`](https://github.com/dhrions/french-typo/commit/90ea6b509a0fb0f2506f50ee8d02fe2b27a04cad))
+
+- 🔧 chore(git): stop tracking generated egg-info (already gitignored)
+  ([`4f0a68a`](https://github.com/dhrions/french-typo/commit/4f0a68a0af78be62eeb21f75b0cc49b2853574d0))
+
+### ✨
+
+- ✨ feat(asciidoc): protect non-prose spans and add --no-list-punctuation
+  ([`e4c296b`](https://github.com/dhrions/french-typo/commit/e4c296bb7ac26cbb922d485a5ea0146b2e6da79f))
+
+Fixes found by running --nbsp on notes-videos (2026-11-01): - formulas (stem:[...], latexmath:[...],
+  ++++ blocks), URLs, macro targets, inline code and cross references are no longer touched by the
+  rules (a YouTube id "...Ee6hI" was split as "6 h", breaking the link); - ordinals are written with
+  AsciiDoc superscript (1^er^) instead of HTML <sup>, which Asciidoctor displays verbatim; - a list
+  item ending with ':', '?', '!' or '…' keeps its punctuation (no more "cadre :." or "possibilité
+  ?.").
+
+New --no-list-punctuation option to leave list item endings alone.
+
+
 ## v1.6.1 (2026-10-14)
 
 ### Other
