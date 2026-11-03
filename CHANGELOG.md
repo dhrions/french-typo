@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.7.1 (2026-11-03)
+
+### 🐛
+
+- 🐛 fix(useless-spaces): keep the space before a dotted name such as .claude/ or .gitignore
+  ([`717a1b4`](https://github.com/dhrions/french-typo/commit/717a1b4ff8f795170a92a6ff2a995fa810f945eb))
+
+
 ## v1.7.0 (2026-11-01)
 
 ### Other
