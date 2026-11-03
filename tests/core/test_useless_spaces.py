@@ -20,3 +20,12 @@ def test_remove_space_before_dot():
     assert remove_useless_spaces("Bonjour  .") == "Bonjour."
     assert remove_useless_spaces("Fin de phrase .\n") == "Fin de phrase.\n"
     assert remove_useless_spaces("A . B . C .") == "A. B. C."
+    assert remove_useless_spaces("Attendez ...") == "Attendez..."
+
+
+def test_keep_space_before_dotted_name():
+    # Un point suivi d'un caractère de mot ouvre un nom (dossier ou fichier
+    # caché), pas une fin de phrase : l'espace qui le précède reste.
+    assert remove_useless_spaces("du dossier .claude/commands/ du coffre") == "du dossier .claude/commands/ du coffre"
+    assert remove_useless_spaces("le fichier .gitignore et le dossier .venv") == "le fichier .gitignore et le dossier .venv"
+    assert remove_useless_spaces("le chemin ./images") == "le chemin ./images"
